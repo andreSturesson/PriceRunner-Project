@@ -67,3 +67,19 @@ Would be deployed locally, on premises on a linux server VM using containerizati
 # Github repository
 
 Empty github repository: https://github.com/andreSturesson/PriceRunner-Project
+
+## How the webscraper should work ?
+
+- Scraping the products page
+- Click on product
+- Extract information
+- Dump CSV
+- Repeat
+
+Every 5 minutues (Cron JON)
+
+- Push/Update database from CSV
+
+## The ? mark
+
+Everything that may change
