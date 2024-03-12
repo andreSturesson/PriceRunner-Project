@@ -1,21 +1,60 @@
 ## Project proposal - PriceRunner Clone
 
-### Brainstorming
+### How to run the project?
 
-- Webscrape popular sites for (name, price image etc..)
-- Group them together by some id
-- Search for item
-- Compare prices
-- Add to wishlist
-- Authentication for storing wishlist
+### Production Mode (Docker)
 
-Example on similar websies:
+1. Ensure Docker is installed on your machine.
 
-https://www.pricerunner.se/
+2. Open a terminal and navigate to the project directory:
 
-https://www.prisjakt.nu/
+```
+git clone git@github.com:andreSturesson/PriceRunner-Project.git
+```
 
-## Architecture
+3. Run the following command to start the project in production mode:
+
+```
+docker-compose up
+```
+
+### Development Mode
+
+#### Backend
+
+1. Ensure .NET is installed on your machine.
+
+2. Start the backend server using the following command:
+
+```
+dotnet watch run
+```
+
+#### Frontend
+
+1. Install the required dependencies by running the following command:
+
+```
+npm install
+```
+
+3. Start the React project in development mode:
+
+```
+npm run dev
+```
+
+Now you can access the project in your browser at the specified localhost address.
+
+### How do access the project ?
+
+Front-end is accesible at: ` localhost:4173`
+
+Backend is accesible at: `localhost:5000/swagger`
+
+Database is at port: `5143`
+
+# Architecture
 
 ### Front-end
 
@@ -64,10 +103,6 @@ Development will use agile principles with an kanban board in jira.
 
 Would be deployed locally, on premises on a linux server VM using containerization. Jenkins will be used for CI pipelines. Ansible for orchestration and docker for deployment. Since most of the architecture is already in place, it would be quite hasslefree to setup. The CD pipeline would be executed when an merge to prod is issued and deployed and would be integrating with both jira and github
 
-# Github repository
-
-Empty github repository: https://github.com/andreSturesson/PriceRunner-Project
-
 ## How the webscraper should work ?
 
 - Scraping the products page
@@ -84,6 +119,6 @@ Every 5 minutues (Cron JON)
 
 Everything that may chang
 
-## Link to basedataset
+# Link to base-dataset
 
 `https://nc.asturesson.se/s/FY4iY7Nt8sjWKyP?`
