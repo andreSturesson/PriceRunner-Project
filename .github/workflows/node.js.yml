@@ -32,3 +32,9 @@ jobs:
           npm run build --if-present
       - name: Run tests
         run: npm test
+      - name: Run linters
+        uses: wearerequired/lint-action@v2.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          eslint: true
+          eslint_dir: ./frontend
