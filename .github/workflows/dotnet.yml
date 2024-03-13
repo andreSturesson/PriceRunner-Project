@@ -3,10 +3,12 @@ name: .NET
 on:
   push:
     branches:
+      - main
       - dev
       - prod
   pull_request:
     branches:
+      - main
       - dev
       - prod
 
@@ -16,21 +18,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup working directory
-        uses: actions/checkout@v3  # Use v3 for this specific step
-        with:
-          path: ./backend  # Define the path to your project directory
+      - uses: actions/checkout@v2
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 8.0.x
       - name: Restore dependencies
-        working-directory: ./backend  # Specify working directory for commands
         run: dotnet restore
+        working-directory: ./backend
       - name: Build
-        working-directory: ./backend  # Specify working directory for commands
         run: dotnet build --no-restore
+        working-directory: ./backend
       - name: Test
-        working-directory: ./backend  # Specify working directory for commands
         run: dotnet test --no-build --verbosity normal
+        working-directory: ./backend
