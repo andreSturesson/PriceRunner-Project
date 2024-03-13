@@ -14,14 +14,14 @@ pipeline {
     
     stage('Build') {
       steps {
-        sh 'npm install'
+        sh 'cd frontend && npm run test'
         sh 'npm run build'
       }
     }
     
     stage('Test') {
       steps {
-        sh 'npm run test'
+        sh 'cd frontend && npm run test'
       }
     }
   }
