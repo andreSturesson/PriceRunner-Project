@@ -14,7 +14,6 @@ pipeline {
     
     stage('Build') {
       steps {
-        sh 'npm config set cache $(pwd)/.npm --global'
         sh 'cd frontend && npm install'
         sh 'npm run build'
       }
