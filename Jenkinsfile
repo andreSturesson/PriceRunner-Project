@@ -21,7 +21,7 @@ pipeline {
     
     stage('Test') {
       steps {
-        sh 'cd frontend && npm run test'
+        sh 'npm run test'
       }
     }
   }
