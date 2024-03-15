@@ -79,6 +79,27 @@ Database is at port: `5143`
 - Jira / Github issues
 - CI/CD pipeline (Jenkins, Ansible & Self hosted server)
 
+## User Stories
+
+### User
+
+- As a user I want to be able to list all avalible products
+- As a user I want to be able to get filtered products by searching
+- As a user I want to be able to filter products by category, price or ascending/descending order.
+- As a user I want to be able to register and login as a user.
+- As a user I want to be able to view more information about a specific product.
+
+### Logged in User
+
+- As a user I want to be able to add/remove a product to my wishlist.
+- As a user I want to be able to view/edit my profile
+- As a user I want to be able to review a specific product and give a rating.
+
+### Admin
+
+- As an admin I want to be able to manage and delete reviews.
+- As an admin I want to be able to manage users.
+
 ## Core
 
 - List avalible products
@@ -92,8 +113,14 @@ Database is at port: `5143`
 - Webscraper (fetching real data) (Elgiganten)
 - See similar items (by category)
 - Price history
+- Ratings (user summitted product raintgs/comments)
+- AdminUser (To review/delete ratings)
 
-## Notes
+## Releases
+
+The deadline for the final applicaiton is 22/3-2024 but a minor release with a functioning app should be released for production at 20/3-2024
+
+## Additonal Notes
 
 ### Development
 
