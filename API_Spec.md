@@ -42,6 +42,41 @@ Fetches products based on search query, category, page, and limit.
 }
 ```
 
+Fetches a product by ID
+
+- Method: GET
+- Path: /products/{id}
+
+```JSON
+{
+  id: "B014TMV5YE",
+  title: "Elegance Carry On Suitcase",
+  imgUrl: "https://fakeImage.com/image.svg",
+  productURL: "https://amazon.com/fakeProduct/B014TMV5YE",
+  stars: 3,
+  price: 199
+  category_id: 34,
+}
+```
+
+##### Default limit is 20 products per request, With a maximum of 50.
+
+#### Example Response
+
+`/products?query=phone&category=electronics&page=1&limit=1`
+
+```JSON
+{
+  id: "B014TMV5YE",
+  title: "Elegance Carry On Suitcase",
+  imgUrl: "https://fakeImage.com/image.svg",
+  productURL: "https://amazon.com/fakeProduct/B014TMV5YE",
+  stars: 3,
+  price: 199
+  category_id: 34,
+}
+```
+
 ## Categories
 
 - Method: GET
