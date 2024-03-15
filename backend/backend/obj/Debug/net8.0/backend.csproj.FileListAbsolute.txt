@@ -32,3 +32,14 @@
 /home/andre/projects/PriceRunner-Project/backend/backend/obj/Debug/net8.0/backend.pdb
 /home/andre/projects/PriceRunner-Project/backend/backend/obj/Debug/net8.0/backend.genruntimeconfig.cache
 /home/andre/projects/PriceRunner-Project/backend/backend/obj/Debug/net8.0/ref/backend.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Npgsql.dll
+/home/andre/projects/PriceRunner-Project/backend/backend/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
