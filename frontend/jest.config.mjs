@@ -13,7 +13,8 @@ const config = {
 
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/tmp/jest_rs",
-
+  resetMocks: false,
+  setupFiles: ["jest-localstorage-mock"],
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 
