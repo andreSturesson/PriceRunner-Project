@@ -19,7 +19,7 @@
 
 # Testing artifacts
 /coverage
-
+backend/backend/bin/*
 # Miscellaneous
 .DS_Store
 Thumbs.db
