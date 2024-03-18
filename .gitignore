@@ -30,3 +30,7 @@ Thumbs.db
 #Ignore DATASET
 /data
 node_modules
+
+backend/tests/bin/Debug/*
+backend/backend/obj/*
+
