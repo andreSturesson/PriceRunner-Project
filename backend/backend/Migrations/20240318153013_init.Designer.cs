@@ -12,7 +12,7 @@ using backend.Database;
 namespace backend.Migrations
 {
     [DbContext(typeof(WishlistWizardContext))]
-    [Migration("20240318123250_init")]
+    [Migration("20240318153013_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -171,7 +171,59 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Beading & Jewelry Making"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Fabric Decorating"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Knitting & Crochet Supplies"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Printmaking Supplies"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Scrapbooking & Stamping Supplies"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Sewing Products"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Craft & Hobby Fabric"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Needlework Supplies"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Arts, Crafts & Sewing Storage"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Painting, Drawing & Art Supplies"
+                        });
                 });
 
             modelBuilder.Entity("backend.Model.Product", b =>
@@ -214,6 +266,68 @@ namespace backend.Migrations
                     b.HasIndex("WishlistId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 4,
+                            ImageUrl = "https://m.media-amazon.com/images/I/815dLQKYIYL._AC_UL320_.jpg",
+                            Price = 13999,
+                            ProductUrl = "https://www.amazon.com/dp/B014TMV5YE",
+                            Stars = "4.5",
+                            Title = "Sion Softside Expandable Roller Luggage, Black, Checked-Large 29-Inch"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 3,
+                            ImageUrl = "https://m.media-amazon.com/images/I/81bQlm7vf6L._AC_UL320_.jpg",
+                            Price = 16999,
+                            ProductUrl = "https://www.amazon.com/dp/B07GDLCQXV",
+                            Stars = "4.5",
+                            Title = "Luggage Sets Expandable PC+ABS Durable Suitcase Double Wheels TSA Lock Blue"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 8,
+                            ImageUrl = "https://m.media-amazon.com/images/I/71EA35zvJBL._AC_UL320_.jpg",
+                            Price = 36549,
+                            ProductUrl = "https://www.amazon.com/dp/B07XSCCZYG",
+                            Stars = "4.6",
+                            Title = "Platinum Elite Softside Expandable Checked Luggage, 8 Wheel Spinner Suitcase, TSA Lock, Men and Women, True Navy Blue, Checked Medium 25-Inch"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 7,
+                            ImageUrl = "https://m.media-amazon.com/images/I/91k6NYLQyIL._AC_UL320_.jpg",
+                            Price = 29159,
+                            ProductUrl = "https://www.amazon.com/dp/B08MVFKGJM",
+                            Stars = "4.6",
+                            Title = "Freeform Hardside Expandable with Double Spinner Wheels, Navy, 2-Piece Set (21/28)"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 5,
+                            ImageUrl = "https://m.media-amazon.com/images/I/61NJoaZcP9L._AC_UL320_.jpg",
+                            Price = 17499,
+                            ProductUrl = "https://www.amazon.com/dp/B01DJLKZBA",
+                            Stars = "4.5",
+                            Title = "Winfield 2 Hardside Expandable Luggage with Spinner Wheels, Checked-Large 28-Inch, Deep Blue"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            ImageUrl = "https://m.media-amazon.com/images/I/61LnBNsSBSL._AC_UL320_.jpg",
+                            Price = 14449,
+                            ProductUrl = "https://www.amazon.com/dp/B07XSCD2R4",
+                            Stars = "4.5",
+                            Title = "Maxlite 5 Softside Expandable Luggage with 4 Spinner Wheels, Lightweight Suitcase, Men and Women, Sapphire Blue, Carry-On 21-Inch"
+                        });
                 });
 
             modelBuilder.Entity("backend.Model.User", b =>
