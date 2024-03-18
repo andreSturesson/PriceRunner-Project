@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product/:productId" element={<ProductPage />} />
-          <Route path="/error" element={<ErrorPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </>
