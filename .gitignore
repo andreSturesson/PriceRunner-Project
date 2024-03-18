@@ -1,6 +1,9 @@
 # Dependency directories
-/node_modules
-
+frontend/node_modules/*
+backend/backend/obj/*
+backend/backend/bin/*
+backend/backend/tests/bin/Debug/*
+backend/backend/tests/obj/*
 # Build output
 /build
 /dist
@@ -30,8 +33,5 @@ Thumbs.db
 #Ignore DATASET
 /data
 node_modules
-
-backend/tests/bin/Debug/*
-backend/backend/obj/*
 
 
