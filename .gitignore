@@ -1,6 +1,9 @@
 # Dependency directories
-/node_modules
-
+frontend/node_modules/*
+backend/backend/obj/*
+backend/backend/bin/*
+backend/backend/tests/bin/Debug/*
+backend/backend/tests/obj/*
 # Build output
 /build
 /dist
@@ -24,8 +27,8 @@
 .DS_Store
 Thumbs.db
 # .NET minimal API project
-/bin
-/obj
+**/bin/
+**/obj/
 
 #Ignore DATASET
 /data
