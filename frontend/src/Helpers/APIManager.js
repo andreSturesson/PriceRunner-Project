@@ -28,7 +28,7 @@ export async function registerUser(payload) {
   if (payload.email === user.email) {
     throw new Error("User already exists");
   }
-
+  console.log("registering user: ", payload);
   return {
     status: 201,
     message: "User has been created",
@@ -47,6 +47,7 @@ export async function login(payload) {
     localStorage.setItem("token", register.token);
     localStorage.setItem("refreshToken", register.refreshToken);
     localStorage.setItem("user", JSON.stringify(user));
+    console.log("Sucessfull login");
     return user;
   } else {
     throw new Error("Invalid email or password");
