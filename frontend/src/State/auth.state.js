@@ -1,21 +1,21 @@
 import { atom } from "jotai";
 
 let user = localStorage.getItem("user");
-export let isLoggedInState;
+export let isLoggedInAtom;
 
 if (user) {
   try {
     user = JSON.parse(user);
-    isLoggedInState = atom(true);
+    isLoggedInAtom = atom(true);
   } catch (error) {
     localStorage.removeItem("user");
-    isLoggedInState = atom(false);
+    isLoggedInAtom = atom(false);
   }
 } else {
   user = {};
-  isLoggedInState = atom(false);
+  isLoggedInAtom = atom(false);
 }
 
-export const userState = atom(user, (_get, set, newUser) => {
-  set(userState, newUser);
+export const userAtom = atom(user, (_get, set, newUser) => {
+  set(userAtom, newUser);
 });

@@ -24,6 +24,8 @@ namespace backend.Database
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
+
+      modelBuilder.Entity<User>().HasOne(u => u.Wishlist).WithOne(w => w.User).HasForeignKey<Wishlist>(w => w.UserId);
     }
 
     public DbSet<User> Users { get; set; }
