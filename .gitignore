@@ -27,8 +27,8 @@ backend/backend/tests/obj/*
 .DS_Store
 Thumbs.db
 # .NET minimal API project
-/bin
-/obj
+**/bin/
+**/obj/
 
 #Ignore DATASET
 /data
