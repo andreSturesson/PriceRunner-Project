@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace backend.Migrations
 {
     /// <inheritdoc />
@@ -56,7 +58,7 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -65,7 +67,7 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,9 +215,9 @@ namespace backend.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Category_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -223,6 +225,36 @@ namespace backend.Migrations
                         column: x => x.WishlistId,
                         principalTable: "Wishlists",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Beading & Jewelry Making" },
+                    { 2, "Fabric Decorating" },
+                    { 3, "Knitting & Crochet Supplies" },
+                    { 4, "Printmaking Supplies" },
+                    { 5, "Scrapbooking & Stamping Supplies" },
+                    { 6, "Sewing Products" },
+                    { 7, "Craft & Hobby Fabric" },
+                    { 8, "Needlework Supplies" },
+                    { 9, "Arts, Crafts & Sewing Storage" },
+                    { 10, "Painting, Drawing & Art Supplies" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "ImageUrl", "Price", "ProductUrl", "Stars", "Title", "WishlistId" },
+                values: new object[,]
+                {
+                    { 1, 4, "https://m.media-amazon.com/images/I/815dLQKYIYL._AC_UL320_.jpg", 13999, "https://www.amazon.com/dp/B014TMV5YE", "4.5", "Sion Softside Expandable Roller Luggage, Black, Checked-Large 29-Inch", null },
+                    { 2, 3, "https://m.media-amazon.com/images/I/81bQlm7vf6L._AC_UL320_.jpg", 16999, "https://www.amazon.com/dp/B07GDLCQXV", "4.5", "Luggage Sets Expandable PC+ABS Durable Suitcase Double Wheels TSA Lock Blue", null },
+                    { 3, 8, "https://m.media-amazon.com/images/I/71EA35zvJBL._AC_UL320_.jpg", 36549, "https://www.amazon.com/dp/B07XSCCZYG", "4.6", "Platinum Elite Softside Expandable Checked Luggage, 8 Wheel Spinner Suitcase, TSA Lock, Men and Women, True Navy Blue, Checked Medium 25-Inch", null },
+                    { 4, 7, "https://m.media-amazon.com/images/I/91k6NYLQyIL._AC_UL320_.jpg", 29159, "https://www.amazon.com/dp/B08MVFKGJM", "4.6", "Freeform Hardside Expandable with Double Spinner Wheels, Navy, 2-Piece Set (21/28)", null },
+                    { 5, 5, "https://m.media-amazon.com/images/I/61NJoaZcP9L._AC_UL320_.jpg", 17499, "https://www.amazon.com/dp/B01DJLKZBA", "4.5", "Winfield 2 Hardside Expandable Luggage with Spinner Wheels, Checked-Large 28-Inch, Deep Blue", null },
+                    { 6, 1, "https://m.media-amazon.com/images/I/61LnBNsSBSL._AC_UL320_.jpg", 14449, "https://www.amazon.com/dp/B07XSCD2R4", "4.5", "Maxlite 5 Softside Expandable Luggage with 4 Spinner Wheels, Lightweight Suitcase, Men and Women, Sapphire Blue, Carry-On 21-Inch", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -304,7 +336,7 @@ namespace backend.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Wishlists");
