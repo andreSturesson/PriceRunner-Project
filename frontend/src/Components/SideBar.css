@@ -1,0 +1,24 @@
+.sideBar {
+  height: 100%;
+  width: 85px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #7d7b7b;
+  transition: 0.5s;
+  overflow-x: hidden;
+  padding-top: 60px;
+  white-space: nowrap;
+}
+.sidebar-button {
+  display: block;
+  width: 85px;
+}
+
+.whishlistTest {
+  background-color: aquamarine;
+  width: 265px;
+  height: 100%;
+  left: 85px;
+}
