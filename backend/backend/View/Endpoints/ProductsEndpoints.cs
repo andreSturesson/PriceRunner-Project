@@ -1,6 +1,8 @@
 
+using backend.Model;
 using backend.Repository.Interfaces;
 using backend.Utilities;
+using backend.View.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.View.Endpoints
@@ -25,8 +27,7 @@ namespace backend.View.Endpoints
         {
           return Results.NotFound(new Error(Status.NotFound, "No products found"));
         }
-        //Will return DTO...
-        return TypedResults.Ok(products);
+        return TypedResults.Ok(ProductDTO.FromRepository(products));
       }
       catch (Exception ex)
       {
@@ -52,8 +53,7 @@ namespace backend.View.Endpoints
         {
           return Results.NotFound(new Error(Status.NotFound, "Product not found"));
         }
-        //Will return DTO...
-        return TypedResults.Ok(product);
+        return TypedResults.Ok(new ProductDTO(product));
       }
       catch (Exception ex)
       {
