@@ -1,6 +1,7 @@
 import "./SideBar.css";
 //import { Group } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { AppShell, Avatar, Drawer, Group } from "@mantine/core";
 
 //import useAtom from "jotai";
 
@@ -12,6 +13,10 @@ function SideBar() {
 
   function goToMainPage() {
     navigate("/");
+  }
+
+  function navigateToProducts() {
+    navigate("/products");
   }
 
   function toggleSidebar() {
@@ -27,20 +32,27 @@ function SideBar() {
   }
 
   return (
-    <div id="colapsableSidebar" className="sideBar">
-      <div className="leftDiv">
-        <button className="sidebar-button" onClick={goToMainPage}>
-          Home
-        </button>
-        {isLoggedIn && (
-          <button className="sidebar-button" onClick={toggleSidebar}>
-            wishList
+    <AppShell.Navbar>
+      <div id="colapsableSidebar" className="sideBar">
+        <div className="leftDiv">
+          <button className="sidebar-button" onClick={goToMainPage}>
+            Home
           </button>
+          <button className="sidebar-button" onClick={navigateToProducts}>
+            Products
+          </button>
+          {isLoggedIn && (
+            <button className="sidebar-button" onClick={toggleSidebar}>
+              wishList
+            </button>
+          )}
+        </div>
+
+        {isLoggedIn && (
+          <div className="whishlistTest">wishlist will go here</div>
         )}
       </div>
-
-      {isLoggedIn && <div className="whishlistTest">wishlist will go here</div>}
-    </div>
+    </AppShell.Navbar>
   );
 }
 

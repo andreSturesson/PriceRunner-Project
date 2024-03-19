@@ -1,7 +1,6 @@
 .footer {
   padding-top: calc(var(--mantine-spacing-xl));
   padding-bottom: calc(var(--mantine-spacing-xl));
-  background-color: beige;
   border-top: 1px solid
     light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
 }

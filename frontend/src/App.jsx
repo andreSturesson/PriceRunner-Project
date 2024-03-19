@@ -7,19 +7,37 @@ import TopNavigation from "./Components/TopNavigation";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Components/Footer";
 import SideBar from "./Components/SideBar";
+import { AppShell } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 function App() {
+  const [opened, { toggle }] = useDisclosure();
+
   return (
     <>
-      <TopNavigation />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/product/:productId" element={<ProductPage />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-      <SideBar />
-      <Footer />
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{
+          width: 120,
+          breakpoint: "sm",
+          collapsed: { mobile: !opened },
+        }}
+        padding="md"
+      >
+        <TopNavigation />
+        <AppShell.Main>
+          <SideBar />
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/product/:productId" element={<ProductPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </AppShell.Main>
+        <AppShell.Footer>
+          <Footer />
+        </AppShell.Footer>
+      </AppShell>
     </>
   );
 }
