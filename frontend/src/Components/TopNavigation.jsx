@@ -12,7 +12,12 @@ function TopNavigation() {
           <LoginModel close={close} />
         </Drawer>
         {/* Add conditional rendering for being logged in */}
-        <Avatar radius="xl" onClick={open} />
+        <Avatar
+          color="whitesmoke"
+          radius="xl"
+          onClick={open}
+          className="profileIcon"
+        ></Avatar>
       </div>
     </>
   );
