@@ -15,6 +15,8 @@ namespace backend.View.DTOs
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
+    public string ProfilePicture { get; set; }
+
     public UserWishListDTO Wishlist { get; set; } = null!;
 
     public UserDTO(User user)
@@ -27,6 +29,7 @@ namespace backend.View.DTOs
       CreatedAt = user.CreatedAt;
       UpdatedAt = user.UpdatedAt;
       Wishlist = new UserWishListDTO(user.Wishlist);
+      ProfilePicture = user.ProfilePicture;
     }
   }
 }
