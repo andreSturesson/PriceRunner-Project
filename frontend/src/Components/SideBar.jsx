@@ -1,9 +1,18 @@
 import "./SideBar.css";
-import { Group } from "@mantine/core";
+//import { Group } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+
+//import useAtom from "jotai";
+
 function SideBar() {
   const isLoggedIn = true; //get this from login condition
 
   let isCollapsed = true;
+  const navigate = useNavigate();
+
+  function goToMainPage() {
+    navigate("/");
+  }
 
   function toggleSidebar() {
     if (isCollapsed) {
@@ -11,7 +20,7 @@ function SideBar() {
       isCollapsed = false;
       console.log("expanding");
     } else {
-      document.getElementById("colapsableSidebar").style.width = "85px";
+      document.getElementById("colapsableSidebar").style.width = "100px";
       isCollapsed = true;
       console.log("reduceing");
     }
@@ -19,19 +28,18 @@ function SideBar() {
 
   return (
     <div id="colapsableSidebar" className="sideBar">
-      <Group gap="xs">
-        <div>
-          <button className="sidebar-button">Home</button>
-          {isLoggedIn && (
-            <button className="sidebar-button" onClick={toggleSidebar}>
-              wishList
-            </button>
-          )}
-        </div>
+      <div className="leftDiv">
+        <button className="sidebar-button" onClick={goToMainPage}>
+          Home
+        </button>
         {isLoggedIn && (
-          <div className="whishlistTest">wishlist will go here</div>
+          <button className="sidebar-button" onClick={toggleSidebar}>
+            wishList
+          </button>
         )}
-      </Group>
+      </div>
+
+      {isLoggedIn && <div className="whishlistTest">wishlist will go here</div>}
     </div>
   );
 }
