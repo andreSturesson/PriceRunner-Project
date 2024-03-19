@@ -1,0 +1,33 @@
+.sideBar {
+  height: 100%;
+  width: 100px;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  background-color: #7d7b7b;
+  transition: 0.5s;
+  overflow-x: hidden;
+  z-index: 1;
+  padding-top: 10px;
+  white-space: nowrap;
+}
+.sidebar-button {
+  display: block;
+
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+}
+
+.whishlistTest {
+  background-color: aquamarine;
+  display: inline-block;
+  height: 500px;
+  width: 250px;
+  position: absolute;
+  text-align: left;
+  padding-left: 5px;
+  top: 0px;
+  left: 90px;
+}
