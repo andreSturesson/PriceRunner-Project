@@ -21,8 +21,9 @@ namespace backend.Tests.Endpoints
     {
       // Arrange
       var productRepositoryMock = new Mock<IProductRepository>();
-      var products = new List<Product> { new Product { Id = 1, Title = "Product 1", ImageUrl = "http://image.com", ProductUrl = "http://product.com" }, new Product { Id = 2, Title = "Product 2", ImageUrl = "http://image.com", ProductUrl = "http://product.com" } };
-      productRepositoryMock.Setup(repo => repo.GetProducts()).ReturnsAsync(products);
+      var products = new List<Product> { new Product { Id = 1, Title = "Product 1", ImageUrl = "http://image.com", ProductUrl = "http://product.com", Stars = "4" }, new Product { Id = 2, Title = "Product 2", ImageUrl = "http://image.com", ProductUrl = "http://product.com", Stars = "3" } };
+      productRepositoryMock.Setup(repo => repo.GetProducts(null, 0, 1, 10)).ReturnsAsync(products);
+
 
       // Act
       var result = await ProductsEndpoint.GetProducts(productRepositoryMock.Object);
@@ -38,8 +39,7 @@ namespace backend.Tests.Endpoints
     {
       // Arrange
       var productRepositoryMock = new Mock<IProductRepository>();
-      productRepositoryMock.Setup(repo => repo.GetProducts()).ReturnsAsync((List<Product>)null);
-
+      productRepositoryMock.Setup(repo => repo.GetProducts(null, 0, 1, 10)).ReturnsAsync((List<Product>)null);
       // Act
       var result = await ProductsEndpoint.GetProducts(productRepositoryMock.Object);
 
@@ -55,8 +55,7 @@ namespace backend.Tests.Endpoints
     {
       // Arrange
       var productRepositoryMock = new Mock<IProductRepository>();
-      productRepositoryMock.Setup(repo => repo.GetProducts()).ThrowsAsync(new Exception("Some error message"));
-
+      productRepositoryMock.Setup(repo => repo.GetProducts(null, 0, 1, 10)).ThrowsAsync(new Exception("Some error message"));
       // Act
       var result = await ProductsEndpoint.GetProducts(productRepositoryMock.Object);
 
@@ -72,7 +71,7 @@ namespace backend.Tests.Endpoints
     {
       // Arrange
       var productRepositoryMock = new Mock<IProductRepository>();
-      var product = new Product { Id = 1, Title = "Product 1", ImageUrl = "http://image.com", ProductUrl = "http://product.com" };
+      var product = new Product { Id = 1, Title = "Product 1", ImageUrl = "http://image.com", ProductUrl = "http://product.com", Stars = "3" };
       productRepositoryMock.Setup(repo => repo.GetProductById(1)).ReturnsAsync(product);
 
       // Act

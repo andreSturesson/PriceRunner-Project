@@ -37,6 +37,7 @@ namespace backend.Repository
       }
 
       products = products.OrderBy(p => p.Id).Skip((page - 1) * limit).Take(limit);
+      products = products.Include(p => p.Category);
 
       return await products.ToListAsync();
     }
