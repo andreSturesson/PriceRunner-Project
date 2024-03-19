@@ -141,41 +141,48 @@ export async function getProducts(parameters) {
  * @returns {Object} - An error message object with a status and message.
  */
 function getErrorMessage(error) {
-  const statusCode = error.response.status;
-  switch (statusCode) {
-    case 401:
-      if (localStorage.getItem("refreshToken")) {
-        console.error("Refresh token failed:", error);
+  if (error.response) {
+    const statusCode = error.response.status;
+    switch (statusCode) {
+      case 401:
+        if (localStorage.getItem("refreshToken")) {
+          console.error("Refresh token failed:", error);
+          return {
+            status: "UNAUTHORIZED_REFRESH_FAILED",
+            message: "Unable to refresh your access token. Please log in again.",
+          };
+        } else {
+          console.error("Missing refresh token");
+          return {
+            status: "UNAUTHORIZED_EXPIRED",
+            message: "Invalid username or password.",
+          };
+        }
+      case 400:
         return {
-          status: "UNAUTHORIZED_REFRESH_FAILED",
-          message: "Unable to refresh your access token. Please log in again.",
+          status: "BAD_REQUEST",
+          message: "Invalid request. Please check your input and try again.",
         };
-      } else {
-        console.error("Missing refresh token");
+      case 404:
         return {
-          status: "UNAUTHORIZED_EXPIRED",
-          message: "Invalid username or password.",
+          status: "NOT_FOUND",
+          message: "The requested resource was not found.",
         };
-      }
-    case 400:
-      return {
-        status: "BAD_REQUEST",
-        message: "Invalid request. Please check your input and try again.",
-      };
-    case 404:
-      return {
-        status: "NOT_FOUND",
-        message: "The requested resource was not found.",
-      };
-    case 500:
-      return {
-        status: "INTERNAL_SERVER_ERROR",
-        message: "Internal server error. Please try again later.",
-      };
-    default:
-      return {
-        status: "UNKNOWN_ERROR",
-        message: "An error occurred. Please try again later.",
-      };
+      case 500:
+        return {
+          status: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error. Please try again later.",
+        };
+      default:
+        return {
+          status: "UNKNOWN_ERROR",
+          message: "An error occurred. Please try again later.",
+        };
+    }
+  } else {
+    return {
+      status: "UNKNOWN_ERROR",
+      message: "An error occurred. Please try again later.",
+    };
   }
 }
