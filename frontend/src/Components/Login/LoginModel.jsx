@@ -101,7 +101,7 @@ function LoginModel({ close }) {
               </Button>
             </Group>
           </form>
-          Don&apos;t have an account?
+          Don&apos;t have an account? &ensp;
           <Button size="xs" onClick={changeRegisteredStatus}>
             Sign Up
           </Button>
@@ -153,7 +153,7 @@ function LoginModel({ close }) {
               </Button>
             </Group>
           </form>
-          Already have an account?
+          Already have an account?&ensp;
           <Button size="xs" onClick={changeRegisteredStatus}>
             Log In
           </Button>

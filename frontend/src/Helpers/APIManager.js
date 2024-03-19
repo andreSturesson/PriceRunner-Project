@@ -149,7 +149,8 @@ function getErrorMessage(error) {
           console.error("Refresh token failed:", error);
           return {
             status: "UNAUTHORIZED_REFRESH_FAILED",
-            message: "Unable to refresh your access token. Please log in again.",
+            message:
+              "Unable to refresh your access token. Please log in again.",
           };
         } else {
           console.error("Missing refresh token");

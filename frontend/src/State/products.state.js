@@ -4,7 +4,7 @@ export const productsAtom = atom([]);
 export const categoriesAtom = atom([]);
 export const parametersAtom = atom({
   search_query: "",
-  category: "",
+  categoryId: 0,
   page: 1,
   limit: 10,
 });
