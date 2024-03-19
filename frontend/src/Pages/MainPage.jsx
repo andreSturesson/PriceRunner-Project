@@ -12,11 +12,6 @@ function MainPage() {
           <Container size={640}>
             <SearchBox />
           </Container>
-          <div className={classes.controls}>
-            <Button className={classes.control} variant="white" size="lg">
-              Search
-            </Button>
-          </div>
         </div>
       </div>
     </>
