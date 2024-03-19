@@ -35,6 +35,14 @@ namespace backend.View.Endpoints
         return Results.BadRequest(new { Error = "Password is required" });
       }
 
+        Uri uriResult;
+            bool urlResult = Uri.TryCreate(payload.ProfilePicture, UriKind.Absolute, out uriResult) &&
+            (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+            if (!urlResult)
+            {
+                return Results.BadRequest(new { Error = "Not a valid url" });
+            }
+
       var user = new User
       {
         Email = payload.Email,
@@ -42,7 +50,8 @@ namespace backend.View.Endpoints
         FirstName = payload.FirstName,
         LastName = payload.LastName,
         CreatedAt = DateTime.UtcNow,
-        UpdatedAt = DateTime.UtcNow
+        UpdatedAt = DateTime.UtcNow,
+        ProfilePicture = payload.ProfilePicture,
       };
 
       var result = await userManager.CreateAsync(user, payload.Password);
