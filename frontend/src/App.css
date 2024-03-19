@@ -4,7 +4,7 @@
   justify-content: end;
 }
 .profileIcon {
-  /* align-self: center; */
+  margin: 4px;
   background-color: rgb(23, 69, 54);
   border: solid whitesmoke 3px;
 }
