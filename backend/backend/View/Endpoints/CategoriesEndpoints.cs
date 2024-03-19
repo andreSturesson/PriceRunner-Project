@@ -14,9 +14,9 @@ namespace backend.View.Endpoints
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public static async Task<IResult> GetCategories()
+    public static Task<IResult> GetCategories()
     {
-      return Results.Ok();
+      return Task.FromResult(Results.Ok());
     }
   }
 }

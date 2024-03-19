@@ -22,7 +22,7 @@ namespace backend.Repository
       return post;
     }
 
-    public async Task<IEnumerable<Product>> GetProducts(string query = null, int categoryId = 0, int page = 1, int limit = 10)
+    public async Task<IEnumerable<Product>> GetProducts(string? query = null, int categoryId = 0, int page = 1, int limit = 10)
     {
       IQueryable<Product> products = _context.Products;
 
