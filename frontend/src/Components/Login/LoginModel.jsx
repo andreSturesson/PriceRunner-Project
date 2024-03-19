@@ -1,15 +1,15 @@
 import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { login, registerUser } from "../../Helpers/APIManager";
 import { useAtom } from "jotai";
-import { isLoggedInState, userState } from "../../State/auth.state.js";
+import { isLoggedInAtom, userAtom } from "../../State/auth.state.js";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
 import { useForm } from "@mantine/form";
 
 function LoginModel({ close }) {
-  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInState);
-  const [user, setUser] = useAtom(userState);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [user, setUser] = useAtom(userAtom);
   const [registered, setRegistered] = useState(true);
 
   const form = useForm({
