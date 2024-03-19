@@ -2,7 +2,12 @@ import { atom, useAtom } from "jotai";
 
 export const productsAtom = atom([]);
 export const categoriesAtom = atom([]);
-export const parametersAtom = atom({});
+export const parametersAtom = atom({
+  search_query: "",
+  category: "",
+  page: 1,
+  limit: 10,
+});
 
 export const useProductsAtom = () => {
   const [products, setProducts] = useAtom(productsAtom);

@@ -20,8 +20,8 @@ namespace backend.View.DTOs
     public UserDTO(User user)
     {
       Id = user.Id;
-      Email = user.Email;
-      UserName = user.UserName;
+      Email = user.Email ?? string.Empty;
+      UserName = user.UserName ?? string.Empty;
       FirstName = user.FirstName;
       LastName = user.LastName;
       CreatedAt = user.CreatedAt;

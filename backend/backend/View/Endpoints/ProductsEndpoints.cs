@@ -18,12 +18,14 @@ namespace backend.View.Endpoints
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public static async Task<IResult> GetProducts(IProductRepository productRepository)
+    public static async Task<IResult> GetProducts(IProductRepository productRepository, string? query = null, int categoryId = 0, int page = 1, int limit = 10)
     {
       try
       {
-        var products = await productRepository.GetProducts();
-        if (products == null)
+#pragma warning disable CS8604 // Possible null reference argument.
+        var products = await productRepository.GetProducts(query, categoryId, page, limit);
+#pragma warning restore CS8604 // Possible null reference argument.
+        if (products == null || !products.Any())
         {
           return Results.NotFound(new Error(Status.NotFound, "No products found"));
         }
@@ -34,6 +36,7 @@ namespace backend.View.Endpoints
         return Results.Conflict(new Error(Status.InternalServerError, ex.Message));
       }
     }
+
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

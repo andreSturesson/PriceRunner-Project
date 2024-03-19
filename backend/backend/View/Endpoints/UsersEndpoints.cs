@@ -59,8 +59,12 @@ namespace backend.View.Endpoints
     [Authorize]
     public static async Task<IResult> GetUser([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContext)
     {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
       var user = await userManager.GetUserAsync(httpContext.HttpContext.User);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
       return TypedResults.Ok(new UserDTO(user));
+#pragma warning restore CS8604 // Possible null reference argument.
     }
 
   }
