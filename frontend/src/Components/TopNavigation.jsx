@@ -1,4 +1,4 @@
-import { Avatar, Drawer, Group } from "@mantine/core";
+import { AppShell, Avatar, Drawer, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import LoginModel from "./Login/LoginModel";
 import { useMantineColorScheme } from "@mantine/core";
@@ -14,17 +14,19 @@ function TopNavigation() {
         <Drawer opened={opened} onClose={close} title="Login">
           <LoginModel close={close} />
         </Drawer>
-        <Group position="right">
-          <Avatar onClick={() => toggleColorScheme()}>
-            {colorScheme === "dark" ? <MdDarkMode /> : <CiDark />}
-          </Avatar>
-          <Avatar
-            color="whitesmoke"
-            radius="xl"
-            onClick={open}
-            className="profileIcon"
-          ></Avatar>
-        </Group>
+        <AppShell.Header>
+          <Group justify="right">
+            <Avatar onClick={() => toggleColorScheme()}>
+              {colorScheme === "dark" ? <MdDarkMode /> : <CiDark />}
+            </Avatar>
+            <Avatar
+              color="whitesmoke"
+              radius="xl"
+              onClick={open}
+              className="profileIcon"
+            ></Avatar>
+          </Group>
+        </AppShell.Header>
       </div>
     </>
   );
