@@ -24,11 +24,20 @@ namespace backend.Database
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
+
+      modelBuilder.Entity<User>().HasOne(u => u.Wishlist).WithOne(w => w.User).HasForeignKey<Wishlist>(w => w.UserId);
+
+      Seeder seeder = new Seeder();
+
+      modelBuilder.Entity<Category>().HasData(seeder.Categories);
+      modelBuilder.Entity<Product>().HasData(seeder.Products);
     }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Wishlist> Wishlists { get; set; }
     public DbSet<Product> Products { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
 
   }
 }

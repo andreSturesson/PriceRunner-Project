@@ -1,2 +1,0 @@
-{"/home/andre/projects/PriceRunner-Project/frontend/tests/example.js": {"path":"/home/andre/projects/PriceRunner-Project/frontend/tests/example.js","statementMap":{"0":{"start":{"line":2,"column":2},"end":{"line":2,"column":15}}},"fnMap":{"0":{"name":"addTwoNumbers","decl":{"start":{"line":1,"column":9},"end":{"line":1,"column":22}},"loc":{"start":{"line":1,"column":29},"end":{"line":3,"column":1}},"line":1}},"branchMap":{},"s":{"0":5},"f":{"0":5},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"e4489640a0957c6425fca0d135500dd38025a60e"}
-}
