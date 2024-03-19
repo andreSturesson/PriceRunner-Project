@@ -1,3 +1,10 @@
 .headerBox {
   background-color: rgb(55, 111, 93);
+  display: grid;
+  justify-content: end;
+}
+.profileIcon {
+  /* align-self: center; */
+  background-color: rgb(23, 69, 54);
+  border: solid whitesmoke 3px;
 }
