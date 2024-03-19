@@ -11,7 +11,6 @@ function App() {
   return (
     <>
       <SideBar />
-      <div>Hello World</div>
       {/*<MainPage />*/}
       <TopNavigation />
 

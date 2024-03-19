@@ -1,14 +1,12 @@
 import SearchBox from "../Components/Products/SearchBox";
 import { Title, Container, Overlay, Button } from "@mantine/core";
 import classes from "./MainPage.module.css";
-import TopNavigation from "../Components/TopNavigation";
 import SideBar from "../Components/SideBar";
 
 function MainPage() {
   return (
     <>
       <SideBar />
-      <TopNavigation />
       <div className={classes.wrapper}>
         <Overlay color="#000" opacity={0.65} zIndex={1} />
         <div className={classes.inner}>
