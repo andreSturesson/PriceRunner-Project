@@ -17,9 +17,7 @@ function TopNavigation() {
           radius="xl"
           onClick={open}
           className="profileIcon"
-        >
-          MK
-        </Avatar>
+        ></Avatar>
       </div>
     </>
   );
