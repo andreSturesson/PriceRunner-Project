@@ -1,38 +1,59 @@
-import { user, categories, products, register } from "./tempMockData";
+import axios from "axios";
+
+const BASE_URL = "http://localhost:5275";
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    return getErrorMessage(error);
+  }
+);
 
 /**
- * Fetches all products depending on parameters.
- * @param {Object} parameters - The parameters for fetching products.
- * @param {string} parameters.query - The search query for products.
- * @param {string} parameters.category - The category of products.
- * @param {number} parameters.page - The page number for pagination.
- * @param {number} parameters.limit - The maximum number of products per page.
- * @returns {Promise<Object[]>} - A promise that resolves to an array of products.
+ * Interceptor for adding authorization headers to requests.
+ * @param {Object} config - The request config object.
+ * @returns {Object} - The modified request config object.
+ * @throws {Error} - If there is an error in the request.
  */
-export async function getProducts(parameters) {
-  const { query = "", category = "", page = 1, limit = 10 } = parameters;
-  return products;
-}
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    if (refreshToken) {
+      config.headers.RefreshToken = refreshToken;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 /**
  * Registers a user with the provided payload.
  * @param {Object} payload - The user registration data.
  * @param {string} payload.email - The email of the user.
  * @param {string} payload.password - The password of the user.
- * @param {string} payload.username - The username of the user.
- * @param {string} payload.first_name - The first name of the user.
- * @param {string} payload.last_name - The last name of the user.
+ * @param {string} payload.userName - The username of the user.
+ * @param {string} payload.firstName - The first name of the user.
+ * @param {string} payload.lastName - The last name of the user.
  * @returns {Promise<Object>} - A promise that resolves to the registered user data.
  */
 export async function registerUser(payload) {
-  if (payload.email === user.email) {
-    throw new Error("User already exists");
+  try {
+    const response = await axios.post(`${BASE_URL}/user/register`, payload);
+    const data = response.data;
+    const bug = await axios.post(`${BASE_URL}/register`, {
+      email: payload.email,
+      password: payload.password,
+    }); //This is due to a bug of the API. Will be removed.
+    return data;
+  } catch (error) {
+    return getErrorMessage(error);
   }
-
-  return {
-    status: 201,
-    message: "User has been created",
-  };
 }
 
 /**
@@ -43,30 +64,118 @@ export async function registerUser(payload) {
  * @returns {Promise<Object>} - A promise that resolves to the logged in user data.
  */
 export async function login(payload) {
-  if (payload.email === user.email && payload.password === user.password) {
-    localStorage.setItem("token", register.token);
-    localStorage.setItem("refreshToken", register.refreshToken);
-    localStorage.setItem("user", JSON.stringify(user));
-    return user;
-  } else {
-    throw new Error("Invalid email or password");
+  try {
+    const temp = axios.create();
+    const response = await temp.post(`${BASE_URL}/login`, payload, {});
+    const data = response.data;
+    if (data.accessToken && data.refreshToken) {
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      const user = await getUser();
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+    return response;
+  } catch (error) {
+    return getErrorMessage(error);
   }
 }
 
 /**
- * Logs out a user.
- * @returns {Promise<void>} - A promise that resolves when the user is logged out.
+ * Retrieves user data from the server.
+ * @returns {Promise<Object>} A promise that resolves to the user data.
+ * @throws {Error} If there is an error retrieving the user data.
  */
 export async function getUser() {
-  return user;
+  try {
+    const response = await axios.get(`${BASE_URL}/user`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("user");
+}
+
+export async function getCategories() {
+  try {
+    const response = await axios.get(`${BASE_URL}/categories`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
 }
 
 /**
- * Logs out a user.
- * @returns {Promise<void>} - A promise that resolves when the user is logged out.
+ * Retrieves posts from the API based on the provided parameters.
+ * @param {Object} parameters - The parameters for the API request.
+ * @param {string} parameters.search_query - The search query for filtering posts.
+ * @param {string} parameters.category - The category for filtering posts.
+ * @param {number} parameters.page - The page number for pagination.
+ * @param {number} parameters.limit - The maximum number of posts to retrieve.
+ * @returns {Promise<Array>} - A promise that resolves to an array of posts.
  */
-export async function logout() {}
+export async function getProducts(parameters) {
+  try {
+    const {
+      search_query = "",
+      category = "",
+      page = 1,
+      limit = 10,
+    } = parameters;
+    const response = await axios.get(
+      `${BASE_URL}/products?query=${search_query}&category=${category}&page=${page}&limit=${limit}`
+    );
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
 
-export async function getCategories() {
-  return categories;
+/**
+ * Returns an error message object based on the provided error response.
+ * @param {Error} error - The error response object.
+ * @returns {Object} - An error message object with a status and message.
+ */
+function getErrorMessage(error) {
+  const statusCode = error.response.status;
+  switch (statusCode) {
+    case 401:
+      if (localStorage.getItem("refreshToken")) {
+        console.error("Refresh token failed:", error);
+        return {
+          status: "UNAUTHORIZED_REFRESH_FAILED",
+          message: "Unable to refresh your access token. Please log in again.",
+        };
+      } else {
+        console.error("Missing refresh token");
+        return {
+          status: "UNAUTHORIZED_EXPIRED",
+          message: "Invalid username or password.",
+        };
+      }
+    case 400:
+      return {
+        status: "BAD_REQUEST",
+        message: "Invalid request. Please check your input and try again.",
+      };
+    case 404:
+      return {
+        status: "NOT_FOUND",
+        message: "The requested resource was not found.",
+      };
+    case 500:
+      return {
+        status: "INTERNAL_SERVER_ERROR",
+        message: "Internal server error. Please try again later.",
+      };
+    default:
+      return {
+        status: "UNKNOWN_ERROR",
+        message: "An error occurred. Please try again later.",
+      };
+  }
 }
