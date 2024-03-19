@@ -35,7 +35,7 @@ namespace NoteHarbor
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Posts - API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Wishlist Wizzard - API", Version = "v1" });
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
