@@ -12,8 +12,8 @@ using backend.Database;
 namespace backend.Migrations
 {
     [DbContext(typeof(WishlistWizardContext))]
-    [Migration("20240320104836_db")]
-    partial class db
+    [Migration("20240320111346_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
