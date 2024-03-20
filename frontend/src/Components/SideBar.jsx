@@ -1,9 +1,6 @@
 import "./SideBar.css";
-//import { Group } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { AppShell, Avatar, Drawer, Group } from "@mantine/core";
-
-//import useAtom from "jotai";
+import { AppShell, Box, Button } from "@mantine/core";
 
 function SideBar() {
   const isLoggedIn = true; //get this from login condition
@@ -33,25 +30,42 @@ function SideBar() {
 
   return (
     <AppShell.Navbar>
-      <div id="colapsableSidebar" className="sideBar">
-        <div className="leftDiv">
-          <button className="sidebar-button" onClick={goToMainPage}>
+      <Box id="colapsableSidebar" className="sideBar">
+        <Box className="leftBox">
+          <Button
+            variant="default"
+            justify="center"
+            fullWidth
+            size="compact-md"
+            onClick={goToMainPage}
+          >
             Home
-          </button>
-          <button className="sidebar-button" onClick={navigateToProducts}>
+          </Button>
+          <Button
+            variant="default"
+            justify="center"
+            fullWidth
+            size="compact-md"
+            onClick={navigateToProducts}
+          >
             Products
-          </button>
+          </Button>
           {isLoggedIn && (
-            <button className="sidebar-button" onClick={toggleSidebar}>
-              wishList
-            </button>
+            <Button
+              variant="default"
+              justify="center"
+              fullWidth
+              size="compact-md"
+              onClick={toggleSidebar}
+            >
+              Wish List
+            </Button>
           )}
-        </div>
-
+        </Box>
         {isLoggedIn && (
-          <div className="whishlistTest">wishlist will go here</div>
+          <Box className="whishlistTest">wishlist will go here</Box>
         )}
-      </div>
+      </Box>
     </AppShell.Navbar>
   );
 }
