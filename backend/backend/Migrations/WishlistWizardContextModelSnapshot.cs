@@ -424,7 +424,6 @@ namespace backend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -505,9 +504,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Model.User", "User")
                         .WithOne("Wishlist")
-                        .HasForeignKey("backend.Model.Wishlist", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("backend.Model.Wishlist", "UserId");
 
                     b.Navigation("User");
                 });
