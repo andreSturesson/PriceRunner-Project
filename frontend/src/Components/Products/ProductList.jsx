@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { useProductsAtom, useParametersAtom } from "../../State/products.state";
 import { useAtom } from "jotai";
+import Product404 from "./Product404";
 
 //TODO Implement a better looking design.
 function ProductList() {
@@ -26,12 +27,16 @@ function ProductList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const products = await getProducts(parameters);
-      if (products) {
-        setProducts(products);
-        setNextPageButton(false);
-      } else {
-        setNextPageButton(true);
+      try {
+        const products = await getProducts(parameters);
+        if (products) {
+          setProducts(products.data);
+          setNextPageButton(false);
+        } else {
+          setNextPageButton(true);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchData();
@@ -53,34 +58,37 @@ function ProductList() {
     }
     setParameters({ ...parameters, page: parameters.page - 1 });
   }
-
   return (
     <Container>
-      {products.map((product) => (
-        <div key={product.id}>
-          <Card
-            shadow="sm"
-            padding="xl"
-            component="a"
-            href={product.productUrl}
-            target="_blank"
-            withBorder
-          >
-            <Card.Section>
-              <Center>
-                <Image src={product.imageUrl} h={400} w={350} alt="No way!" />
-              </Center>
-            </Card.Section>
+      {products ? (
+        products.map((product) => (
+          <div key={product.id}>
+            <Card
+              shadow="sm"
+              padding="xl"
+              component="a"
+              href={product.productUrl}
+              target="_blank"
+              withBorder
+            >
+              <Card.Section>
+                <Center>
+                  <Image src={product.imageUrl} h={400} w={350} alt="No way!" />
+                </Center>
+              </Card.Section>
 
-            <Text fw={500} size="lg" mt="md">
-              {product.title}
-            </Text>
+              <Text fw={500} size="lg" mt="md">
+                {product.title}
+              </Text>
 
-            <Text size="sm">Price: ${product.price.toFixed(2)}</Text>
-          </Card>
-          <Space h="md" mt="xl" />
-        </div>
-      ))}
+              <Text size="sm">Price: ${product.price.toFixed(2)}</Text>
+            </Card>
+            <Space h="md" mt="xl" />
+          </div>
+        ))
+      ) : (
+        <Product404 />
+      )}
       <Divider />
       <Space h="md" />
       <Group justify="center">

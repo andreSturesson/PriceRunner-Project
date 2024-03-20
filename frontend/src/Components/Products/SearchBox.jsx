@@ -26,7 +26,6 @@ function SearchBox() {
   const handleSubmit = (event) => {
     event.preventDefault();
     searchForm.validate();
-    console.log("searching...", searchForm.values.search_query);
     setParameters(searchForm.values);
     searchForm.values = null;
     navigate("/products");
