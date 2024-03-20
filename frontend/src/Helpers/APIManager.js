@@ -158,6 +158,7 @@ export async function getProducts(parameters) {
 export async function getWishList() {
   try {
     const response = await axios.get(`${BASE_URL}/user/wishlist`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     return getErrorMessage(error);

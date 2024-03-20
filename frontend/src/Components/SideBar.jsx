@@ -1,6 +1,7 @@
 import "./SideBar.css";
 import { useNavigate } from "react-router-dom";
-import { AppShell, Box, Button } from "@mantine/core";
+import { AppShell, Box, Button, Container } from "@mantine/core";
+import WishList from "./WishList";
 
 function SideBar() {
   const isLoggedIn = true; //get this from login condition
@@ -63,7 +64,9 @@ function SideBar() {
           )}
         </Box>
         {isLoggedIn && (
-          <Box className="whishlistTest">wishlist will go here</Box>
+          <Box className="whishlistTest">
+            <WishList />
+          </Box>
         )}
       </Box>
     </AppShell.Navbar>
