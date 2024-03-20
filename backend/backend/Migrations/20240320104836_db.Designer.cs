@@ -12,8 +12,8 @@ using backend.Database;
 namespace backend.Migrations
 {
     [DbContext(typeof(WishlistWizardContext))]
-    [Migration("20240319145352_newMigrationAddedProfilePictureToUser")]
-    partial class newMigrationAddedProfilePictureToUser
+    [Migration("20240320104836_db")]
+    partial class db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -427,7 +427,6 @@ namespace backend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -508,9 +507,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Model.User", "User")
                         .WithOne("Wishlist")
-                        .HasForeignKey("backend.Model.Wishlist", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("backend.Model.Wishlist", "UserId");
 
                     b.Navigation("User");
                 });

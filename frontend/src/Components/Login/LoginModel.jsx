@@ -37,35 +37,42 @@ function LoginModel({ close }) {
     validateInputOnChange: true,
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Check if registering or logging in
     if (registered === true) {
       form.validate();
-      login({ email: form.values.email, password: form.values.password }).then(
-        (response) => {
-          console.log(response);
-          setUser(response);
-          localStorage.setItem("user", JSON.stringify(response));
-          setIsLoggedIn(true);
-          close();
-        }
-      );
-    } else if (registered === false) {
-      registerForm.validate();
-      registerUser({
-        email: registerForm.values.email,
-        password: registerForm.values.password,
-        username: registerForm.values.username,
-        firstName: registerForm.values.firstName,
-        lastName: registerForm.values.lastName,
-      }).then((response) => {
+      try {
+        const response = await login({
+          email: form.values.email,
+          password: form.values.password,
+        });
         console.log(response);
         setUser(response);
         localStorage.setItem("user", JSON.stringify(response));
         setIsLoggedIn(true);
         close();
-      });
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (registered === false) {
+      registerForm.validate();
+      try {
+        const response = await registerUser({
+          email: registerForm.values.email,
+          password: registerForm.values.password,
+          userName: registerForm.values.username,
+          firstName: registerForm.values.firstName,
+          lastName: registerForm.values.lastName,
+        });
+        console.log(response);
+        setUser(response);
+        localStorage.setItem("user", JSON.stringify(response));
+        setIsLoggedIn(true);
+        close();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
