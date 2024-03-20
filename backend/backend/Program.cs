@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using backend.Database;
 using backend.Repository.Interfaces;
 using backend.View.Endpoints;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace NoteHarbor
 {
@@ -42,11 +43,13 @@ namespace NoteHarbor
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
             builder.Services.AddDbContext<WishlistWizardContext>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IWishlistRepository, WishListRepository>();
 
             var app = builder.Build();
 
@@ -61,6 +64,7 @@ namespace NoteHarbor
             app.MapIdentityApi<User>();
 
             app.UseHttpsRedirection();
+            app.ConfigureWishListEndpoint();
             app.ConfigureCategoriesEndpoints();
             app.ConfigureProductEndpoint();
             app.ConfigureUsersEndpoints();

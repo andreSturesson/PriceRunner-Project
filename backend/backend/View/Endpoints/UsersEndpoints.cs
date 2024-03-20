@@ -4,6 +4,7 @@ using backend.Repository;
 using backend.Repository.Interfaces;
 using backend.Utilities;
 using backend.View.DTOs;
+using backend.View.Payloads;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace backend.View.Endpoints
     {
       users.MapGroup("/user");
       users.MapPost("/user/register", Register);
+      users.MapPut("/user", UpdateUser);
       users.MapGet("/user", GetUser);
     }
 
@@ -35,13 +37,13 @@ namespace backend.View.Endpoints
         return Results.BadRequest(new { Error = "Password is required" });
       }
 
-        Uri uriResult;
-            bool urlResult = Uri.TryCreate(payload.ProfilePicture, UriKind.Absolute, out uriResult) &&
-            (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-            if (!urlResult)
-            {
-                return Results.BadRequest(new { Error = "Not a valid url" });
-            }
+      Uri uriResult;
+      bool urlResult = Uri.TryCreate(payload.ProfilePicture, UriKind.Absolute, out uriResult) &&
+      (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+      if (!urlResult)
+      {
+        return Results.BadRequest(new { Error = "Not a valid url" });
+      }
 
       var user = new User
       {
@@ -55,7 +57,6 @@ namespace backend.View.Endpoints
       };
 
       var result = await userManager.CreateAsync(user, payload.Password);
-
       if (result.Succeeded)
       {
         return Results.Ok(new Error(Status.Ok, "Created"));
@@ -68,12 +69,38 @@ namespace backend.View.Endpoints
     [Authorize]
     public static async Task<IResult> GetUser([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContext)
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
       var user = await userManager.GetUserAsync(httpContext.HttpContext.User);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8604 // Possible null reference argument.
-      return TypedResults.Ok(new UserDTO(user));
-#pragma warning restore CS8604 // Possible null reference argument.
+      if (user == null)
+      {
+        return Results.NotFound(new { Error = "User not found" });
+      }
+
+      return Results.Ok(new UserDTO(user));
+    }
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize]
+    public static async Task<IResult> UpdateUser([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContext, UpdateUserPayload payload)
+    {
+      var user = await userManager.GetUserAsync(httpContext.HttpContext.User);
+
+      if (!string.IsNullOrEmpty(payload.FirstName))
+      {
+        user.FirstName = payload.FirstName;
+      }
+
+      if (!string.IsNullOrEmpty(payload.LastName))
+      {
+        user.LastName = payload.LastName;
+      }
+
+      if (!string.IsNullOrEmpty(payload.ProfilePicture))
+      {
+        user.ProfilePicture = payload.ProfilePicture;
+      }
+
+      await userManager.UpdateAsync(user);
+      return Results.Ok("User updated successfully!");
     }
 
   }

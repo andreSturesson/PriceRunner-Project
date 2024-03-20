@@ -8,7 +8,6 @@ namespace backend.Model
     public string LastName { get; set; } = "";
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-
     public string ProfilePicture { get; set; } = "";
 
     public Wishlist Wishlist { get; set; } = new Wishlist();

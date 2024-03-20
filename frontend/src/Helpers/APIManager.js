@@ -44,12 +44,17 @@ axios.interceptors.request.use(
  */
 export async function registerUser(payload) {
   try {
-    const response = await axios.post(`${BASE_URL}/user/register`, payload);
+    const response = await axios.post(`${BASE_URL}/register`, payload);
     const data = response.data;
-    const bug = await axios.post(`${BASE_URL}/register`, {
+    await login({
       email: payload.email,
       password: payload.password,
-    }); //This is due to a bug of the API. Will be removed.
+    });
+    await updateUser({
+      userName: payload.userName,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+    });
     return data;
   } catch (error) {
     return getErrorMessage(error);
@@ -80,6 +85,16 @@ export async function login(payload) {
   }
 }
 
+export async function updateUser(payload) {
+  try {
+    const response = await axios.put(`${BASE_URL}/user`, payload);
+    const data = response.data;
+    localStorage.setItem("user", JSON.stringify(data));
+    return data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
 /**
  * Retrieves user data from the server.
  * @returns {Promise<Object>} A promise that resolves to the user data.
@@ -129,7 +144,7 @@ export async function getProducts(parameters) {
     const response = await axios.get(
       `${BASE_URL}/products?query=${search_query}&category=${category}&page=${page}&limit=${limit}`
     );
-    return response.data;
+    return response;
   } catch (error) {
     return getErrorMessage(error);
   }
