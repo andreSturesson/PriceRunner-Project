@@ -1,11 +1,11 @@
 .sideBar {
   height: 100%;
-  width: 100px;
+  width: 90px;
   position: fixed;
 
-  top: 0;
+  top: 10;
   left: 0;
-  background-color: #7d7b7b;
+  background-color: whitesmoke;
   transition: 0.5s;
   overflow-x: hidden;
   z-index: 1;
@@ -21,13 +21,13 @@
 }
 
 .whishlistTest {
-  background-color: aquamarine;
+  background-color: rgb(255, 255, 255);
   display: inline-block;
-  height: 500px;
+  height: 88%;
   width: 250px;
   position: absolute;
   text-align: left;
   padding-left: 5px;
-  top: 0px;
+  top: 5px;
   left: 90px;
 }
