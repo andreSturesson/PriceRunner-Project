@@ -150,6 +150,15 @@ export async function getProducts(parameters) {
   }
 }
 
+export async function getProduct(productId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
 /**
  * Retrieves the user's wishlist.
  * @returns {Promise<Object>} - A promise that resolves to an object containing the wishlist products.
