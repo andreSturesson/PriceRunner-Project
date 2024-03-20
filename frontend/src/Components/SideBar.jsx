@@ -25,7 +25,7 @@ function SideBar() {
       isCollapsed = false;
       console.log("expanding");
     } else {
-      document.getElementById("colapsableSidebar").style.width = "100px";
+      document.getElementById("colapsableSidebar").style.width = "90px";
       isCollapsed = true;
       console.log("reduceing");
     }
