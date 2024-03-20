@@ -9,6 +9,7 @@ import Footer from "./Components/Footer";
 import SideBar from "./Components/SideBar";
 import { AppShell } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import Profile from "./Components/Profile";
 
 function App() {
   const [opened, { toggle }] = useDisclosure();
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/product/:productId" element={<ProductPage />} />
+            <Route path="/profile/:userId" element={<Profile />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </AppShell.Main>

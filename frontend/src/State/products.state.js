@@ -6,7 +6,7 @@ export const parametersAtom = atom({
   search_query: "",
   categoryId: 0,
   page: 1,
-  limit: 2,
+  limit: 20,
 });
 
 export const useProductsAtom = () => {

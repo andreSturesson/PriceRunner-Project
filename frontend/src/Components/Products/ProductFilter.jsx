@@ -37,7 +37,7 @@ function ProductFilter() {
   }
 
   const selectData = createData(categories);
-
+  console.log(selectData);
   const handleCategoryChange = (event) => {
     setCategory(event.currentTarget.value);
     setParameters({ ...parameters, categoryId: event.currentTarget.value });
