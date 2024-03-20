@@ -37,6 +37,7 @@ namespace backend.Database
     public DbSet<Wishlist> Wishlists { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
   }
 }
