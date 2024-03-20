@@ -2,7 +2,6 @@ import { Card, Center, Image, Space, Text } from "@mantine/core";
 import PropTypes from "prop-types";
 
 function Product({ product }) {
-  console.log(product);
   return (
     <>
       <Card shadow="sm" padding="xl" component="a" target="_blank" withBorder>
