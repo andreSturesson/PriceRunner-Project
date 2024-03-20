@@ -1,11 +1,10 @@
 import SearchBox from "../Components/Products/SearchBox";
-import { Title, Container, Overlay, Button } from "@mantine/core";
+import { Title, Container, Overlay } from "@mantine/core";
 import classes from "./MainPage.module.css";
 import { useAtom } from "jotai";
-import { isLoggedInAtom, userAtom } from "../State/auth.state";
+import { parametersAtom } from "../State/products.state";
 function MainPage() {
-  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
-  const [user, setUser] = useAtom(userAtom);
+  const [parameters, setParameters] = useAtom(parametersAtom);
 
   return (
     <>

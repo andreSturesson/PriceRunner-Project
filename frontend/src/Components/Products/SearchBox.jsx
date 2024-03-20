@@ -12,10 +12,7 @@ function SearchBox() {
 
   const searchForm = useForm({
     initialValues: {
-      search_query: "",
-      categoryId: 0,
-      page: 1,
-      limit: 10,
+      search_query: parameters.search_query,
     },
     validate: {
       search_query: (value) =>
