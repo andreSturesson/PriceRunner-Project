@@ -1,13 +1,6 @@
 import "./SideBar.css";
-//import { Group } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import {
-  AppShell,
-  /*Avatar,*/ Box,
-  Button /* Drawer, Group*/,
-} from "@mantine/core";
-
-//import useAtom from "jotai";
+import { AppShell, Box, Button } from "@mantine/core";
 
 function SideBar() {
   const isLoggedIn = true; //get this from login condition
