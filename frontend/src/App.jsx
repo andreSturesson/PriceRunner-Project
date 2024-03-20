@@ -34,9 +34,7 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </AppShell.Main>
-        <AppShell.Footer>
-          <Footer />
-        </AppShell.Footer>
+        <Footer />
       </AppShell>
     </>
   );
