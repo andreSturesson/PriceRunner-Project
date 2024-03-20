@@ -8,41 +8,59 @@ function ProductSort() {
 
   useEffect(() => {
     // Whenever 'sorting' changes, resort the list of products accordingly and re-render
-    // Default is 'ascending'-Id
-
     // Check which order is active
     if (sortingOrder === "asc") {
       // Then sort products
-      products.sort((a, b) => {
-        const titleA = a.title.toUpperCase();
-        const titleB = b.title.toUpperCase();
-        if (titleA < titleB) {
-          return -1;
-        }
-        if (titleA > titleB) {
-          return 1;
-        }
-        return 0;
-      });
+      try {
+        products.sort((a, b) => {
+          const titleA = a.title.toUpperCase();
+          const titleB = b.title.toUpperCase();
+          if (titleA < titleB) {
+            return -1;
+          }
+          if (titleA > titleB) {
+            return 1;
+          }
+          return 0;
+        });
+      } catch (error) {
+        console.log(error);
+      }
     } else if (sortingOrder === "desc") {
-      products.sort((b, a) => {
-        const titleA = a.title.toUpperCase();
-        const titleB = b.title.toUpperCase();
-        if (titleA < titleB) {
-          return -1;
-        }
-        if (titleA > titleB) {
-          return 1;
-        }
-        return 0;
-      });
+      try {
+        products.sort((b, a) => {
+          const titleA = a.title.toUpperCase();
+          const titleB = b.title.toUpperCase();
+          if (titleA < titleB) {
+            return -1;
+          }
+          if (titleA > titleB) {
+            return 1;
+          }
+          return 0;
+        });
+      } catch (error) {
+        console.log(error);
+      }
     } else if (sortingOrder === "ascP") {
-      products.sort((a, b) => a.price - b.price);
+      try {
+        products.sort((a, b) => a.price - b.price);
+      } catch (error) {
+        console.log(error);
+      }
     } else if (sortingOrder === "descP") {
-      products.sort((b, a) => a.price - b.price);
+      try {
+        products.sort((b, a) => a.price - b.price);
+      } catch (error) {
+        console.log(error);
+      }
     }
     // Re-render list
-    setProducts([...products]);
+    try {
+      setProducts([...products]);
+    } catch (error) {
+      console.log(error);
+    }
   }, [sortingOrder]);
 
   return (

@@ -1,5 +1,5 @@
 import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
-import { login, registerUser } from "../../Helpers/APIManager";
+import { login, registerUser } from "../../Helpers/APIManager.js";
 import { useAtom } from "jotai";
 import { isLoggedInAtom, userAtom } from "../../State/auth.state.js";
 import { useState } from "react";

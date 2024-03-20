@@ -129,7 +129,7 @@ export async function getProducts(parameters) {
     const response = await axios.get(
       `${BASE_URL}/products?query=${search_query}&category=${category}&page=${page}&limit=${limit}`
     );
-    return response.data;
+    return response;
   } catch (error) {
     return getErrorMessage(error);
   }

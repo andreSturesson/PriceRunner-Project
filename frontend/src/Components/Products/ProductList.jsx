@@ -1,20 +1,10 @@
 import { isLoggedInAtom } from "../../State/auth.state";
 import { useState, useEffect } from "react";
 import { getProducts } from "../../Helpers/APIManager";
-import {
-  Card,
-  Container,
-  Group,
-  Image,
-  Text,
-  Divider,
-  Space,
-  Center,
-  Button,
-  Input,
-} from "@mantine/core";
+import { Container, Group, Divider, Space, Button } from "@mantine/core";
 import { useProductsAtom, useParametersAtom } from "../../State/products.state";
 import { useAtom } from "jotai";
+import Product404 from "./Product404";
 import Product from "./Product";
 
 //TODO Implement a better looking design.
@@ -27,12 +17,16 @@ function ProductList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const products = await getProducts(parameters);
-      if (products) {
-        setProducts(products);
-        setNextPageButton(false);
-      } else {
-        setNextPageButton(true);
+      try {
+        const products = await getProducts(parameters);
+        if (products) {
+          setProducts(products.data);
+          setNextPageButton(false);
+        } else {
+          setNextPageButton(true);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchData();
@@ -54,12 +48,15 @@ function ProductList() {
     }
     setParameters({ ...parameters, page: parameters.page - 1 });
   }
-
   return (
     <Container>
-      {products.map((product) => (
-        <Product key={product.id} product={product} />
-      ))}
+      {products ? (
+        products.map((product) => (
+          <Product key={product.id} product={product} />
+        ))
+      ) : (
+        <Product404 />
+      )}
       <Divider />
       <Space h="md" />
       <Group justify="center">
