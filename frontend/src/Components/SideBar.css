@@ -5,7 +5,7 @@
 
   top: 10;
   left: 0;
-  background-color: whitesmoke;
+
   transition: 0.5s;
   overflow-x: hidden;
   z-index: 1;
@@ -13,11 +13,14 @@
   white-space: nowrap;
 }
 .sidebar-button {
-  display: block;
-
-  width: 80px;
-  height: 80px;
+  height: 90px;
   margin: 5px;
+}
+
+.root {
+  border-top-left-radius: var(--mantine-radius-xl);
+  border-bottom-left-radius: var(--mantine-radius-xl);
+  padding-left: rem(4px);
 }
 
 .whishlistTest {
@@ -30,4 +33,7 @@
   padding-left: 5px;
   top: 5px;
   left: 90px;
+}
+.leftBox {
+  width: 90px;
 }
