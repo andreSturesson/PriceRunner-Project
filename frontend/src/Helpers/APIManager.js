@@ -151,6 +151,36 @@ export async function getProducts(parameters) {
 }
 
 /**
+ * Retrieves the user's wishlist.
+ * @returns {Promise<Object>} - A promise that resolves to an object containing the wishlist products.
+ * @throws {Error} - If there is an error retrieving the wishlist.
+ */
+export async function getWishList() {
+  try {
+    const response = await axios.get(`${BASE_URL}/user/wishlist`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+/**
+ * Deletes a product from the user's wishlist.
+ * @param {string} productId - The ID of the product to be deleted.
+ * @returns {Promise<any>} - A promise that resolves to the response data if successful, or an error message if unsuccessful.
+ */
+export async function deleteFromWishList(productId) {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/user/wishlist/${productId}`
+    );
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+/**
  * Returns an error message object based on the provided error response.
  * @param {Error} error - The error response object.
  * @returns {Object} - An error message object with a status and message.
