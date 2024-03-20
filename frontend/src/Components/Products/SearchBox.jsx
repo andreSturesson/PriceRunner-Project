@@ -1,28 +1,19 @@
-import {
-  Container,
-  Space,
-  TextInput,
-  rem,
-  Text,
-  Group,
-  Stack,
-} from "@mantine/core";
+import { Container, Space, TextInput, rem } from "@mantine/core";
 import { FaSearchDollar } from "react-icons/fa";
 import { MdOutlineClear } from "react-icons/md";
-import { useParametersAtom, useProductsAtom } from "../../State/products.state";
+import { useParametersAtom } from "../../State/products.state";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 
 function SearchBox() {
   const [parameters, setParameters] = useParametersAtom();
-  const [products, setProducts] = useProductsAtom();
 
   const navigate = useNavigate();
 
   const searchForm = useForm({
     initialValues: {
       search_query: "",
-      category: "",
+      categoryId: 0,
       page: 1,
       limit: 10,
     },

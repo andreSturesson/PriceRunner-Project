@@ -128,7 +128,7 @@ export async function getCategories() {
  * Retrieves posts from the API based on the provided parameters.
  * @param {Object} parameters - The parameters for the API request.
  * @param {string} parameters.search_query - The search query for filtering posts.
- * @param {string} parameters.category - The category for filtering posts.
+ * @param {number} parameters.categoryId - The category for filtering posts.
  * @param {number} parameters.page - The page number for pagination.
  * @param {number} parameters.limit - The maximum number of posts to retrieve.
  * @returns {Promise<Array>} - A promise that resolves to an array of posts.
@@ -137,12 +137,12 @@ export async function getProducts(parameters) {
   try {
     const {
       search_query = "",
-      category = "",
+      categoryId = 0,
       page = 1,
       limit = 10,
     } = parameters;
     const response = await axios.get(
-      `${BASE_URL}/products?query=${search_query}&category=${category}&page=${page}&limit=${limit}`
+      `${BASE_URL}/products?query=${search_query}&categoryId=${categoryId}&page=${page}&limit=${limit}`
     );
     return response;
   } catch (error) {
