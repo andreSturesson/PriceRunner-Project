@@ -89,6 +89,7 @@ function LoginModel({ close }) {
       } else {
         const { message } = response;
         setError(message);
+        console.log("Error:", message);
         return;
       }
     } catch (error) {
@@ -98,11 +99,11 @@ function LoginModel({ close }) {
 
   async function handleSubmit() {
     form.validate();
-    if (type === "register") {
+    if (type === "Register") {
       console.log("Registering...");
       await handleRegister();
     }
-    if (type === "login") {
+    if (type === "Login") {
       console.log("Logging in...");
       await handleLogin();
     }
