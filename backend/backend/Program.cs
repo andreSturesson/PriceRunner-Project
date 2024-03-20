@@ -50,6 +50,7 @@ namespace NoteHarbor
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IWishlistRepository, WishListRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
             var app = builder.Build();
 
@@ -68,6 +69,7 @@ namespace NoteHarbor
             app.ConfigureCategoriesEndpoints();
             app.ConfigureProductEndpoint();
             app.ConfigureUsersEndpoints();
+            app.ConfigureReviewEndpoint();
             app.Run();
         }
     }
