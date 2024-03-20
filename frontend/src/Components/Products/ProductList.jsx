@@ -1,21 +1,11 @@
 import { isLoggedInAtom } from "../../State/auth.state";
 import { useState, useEffect } from "react";
 import { getProducts } from "../../Helpers/APIManager";
-import {
-  Card,
-  Container,
-  Group,
-  Image,
-  Text,
-  Divider,
-  Space,
-  Center,
-  Button,
-  Input,
-} from "@mantine/core";
+import { Container, Group, Divider, Space, Button } from "@mantine/core";
 import { useProductsAtom, useParametersAtom } from "../../State/products.state";
 import { useAtom } from "jotai";
 import Product404 from "./Product404";
+import Product from "./Product";
 
 //TODO Implement a better looking design.
 function ProductList() {
@@ -62,29 +52,7 @@ function ProductList() {
     <Container>
       {products ? (
         products.map((product) => (
-          <div key={product.id}>
-            <Card
-              shadow="sm"
-              padding="xl"
-              component="a"
-              href={product.productUrl}
-              target="_blank"
-              withBorder
-            >
-              <Card.Section>
-                <Center>
-                  <Image src={product.imageUrl} h={400} w={350} alt="No way!" />
-                </Center>
-              </Card.Section>
-
-              <Text fw={500} size="lg" mt="md">
-                {product.title}
-              </Text>
-
-              <Text size="sm">Price: ${product.price.toFixed(2)}</Text>
-            </Card>
-            <Space h="md" mt="xl" />
-          </div>
+          <Product key={product.id} product={product} />
         ))
       ) : (
         <Product404 />

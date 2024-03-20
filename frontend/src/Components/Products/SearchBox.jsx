@@ -1,5 +1,14 @@
-import { Container, Space, TextInput, rem } from "@mantine/core";
+import {
+  Container,
+  Space,
+  TextInput,
+  rem,
+  Text,
+  Group,
+  Stack,
+} from "@mantine/core";
 import { FaSearchDollar } from "react-icons/fa";
+import { MdOutlineClear } from "react-icons/md";
 import { useParametersAtom, useProductsAtom } from "../../State/products.state";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +40,11 @@ function SearchBox() {
     navigate("/products");
   };
 
+  const handleClear = () => {
+    searchForm.reset();
+    setParameters({ ...parameters, search_query: "" });
+  };
+
   return (
     <Container>
       <form onSubmit={handleSubmit}>
@@ -39,7 +53,16 @@ function SearchBox() {
           size="md"
           placeholder="Search for items"
           rightSection={
-            <FaSearchDollar style={{ width: rem(18), height: rem(18) }} />
+            <>
+              <FaSearchDollar
+                style={{ cursor: "pointer", width: rem(18), height: rem(18) }}
+              />
+              <Space w="sm" />
+              <MdOutlineClear
+                onClick={handleClear}
+                style={{ cursor: "pointer" }}
+              />
+            </>
           }
           value={searchForm.values.search_query}
           {...searchForm.getInputProps("search_query")}
