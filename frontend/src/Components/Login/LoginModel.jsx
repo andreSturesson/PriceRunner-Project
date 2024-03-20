@@ -1,172 +1,195 @@
-import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  PasswordInput,
+  TextInput,
+  Paper,
+  Center,
+  Text,
+  Divider,
+  Stack,
+  Anchor,
+  Badge,
+} from "@mantine/core";
 import { login, registerUser } from "../../Helpers/APIManager.js";
 import { useAtom } from "jotai";
 import { isLoggedInAtom, userAtom } from "../../State/auth.state.js";
 import { useState } from "react";
 import PropTypes from "prop-types";
-
+import { useToggle } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 
 function LoginModel({ close }) {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [user, setUser] = useAtom(userAtom);
-  const [registered, setRegistered] = useState(true);
+  const [type, toggle] = useToggle(["Login", "Register"]);
+  const [error, setError] = useState("");
 
   const form = useForm({
-    initialvalues: {
-      email: "",
-      password: "",
-    },
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-    },
-    validateInputOnChange: true,
-  });
-
-  const registerForm = useForm({
-    initialvalues: {
-      email: "",
-      password: "",
-      username: "",
+    initialValues: {
       firstName: "",
       lastName: "",
+      profilePicture: "",
+      email: "",
+      password: "",
+      terms: true,
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      password: (value) =>
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(
+          value
+        )
+          ? null
+          : "Password should have 8 characters, 1 capital letter, 1 special character, and 1 numeral",
     },
     validateInputOnChange: true,
   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Check if registering or logging in
-    if (registered === true) {
-      form.validate();
-      try {
-        const response = await login({
+  async function handleRegister() {
+    console.log("Registering...");
+    try {
+      const submit = {
+        email: form.values.email,
+        password: form.values.password,
+        firstName: form.values.firstName,
+        lastName: form.values.lastName,
+        profilePicture: form.values.profilePicture,
+      };
+
+      const response = await registerUser(submit);
+      if (response.status === 200) {
+        await login({
           email: form.values.email,
           password: form.values.password,
         });
-        console.log(response);
-        setUser(response);
-        localStorage.setItem("user", JSON.stringify(response));
+        const registeredUser = JSON.parse(localStorage.getItem("user"));
+        setUser(registeredUser);
         setIsLoggedIn(true);
         close();
-      } catch (error) {
-        console.error(error);
+      } else {
+        const { message } = response;
+        setError(message);
+        return;
       }
-    } else if (registered === false) {
-      registerForm.validate();
-      try {
-        const response = await registerUser({
-          email: registerForm.values.email,
-          password: registerForm.values.password,
-          userName: registerForm.values.username,
-          firstName: registerForm.values.firstName,
-          lastName: registerForm.values.lastName,
-        });
-        console.log(response);
-        setUser(response);
-        localStorage.setItem("user", JSON.stringify(response));
-        setIsLoggedIn(true);
-        close();
-      } catch (error) {
-        console.error(error);
-      }
+    } catch (error) {
+      console.error("Error during registration:", error);
     }
-  };
+  }
 
-  const changeRegisteredStatus = () => {
-    setRegistered(!registered);
-  };
+  async function handleLogin() {
+    try {
+      const response = await login(form.values);
+      console.log("Response:", response);
+      if (response.status === 200) {
+        const loggedInUser = JSON.parse(localStorage.getItem("user"));
+        setUser(loggedInUser);
+        setIsLoggedIn(true);
+        close();
+      } else {
+        const { message } = response;
+        setError(message);
+        return;
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  }
+
+  async function handleSubmit() {
+    form.validate();
+    if (type === "register") {
+      console.log("Registering...");
+      await handleRegister();
+    }
+    if (type === "login") {
+      console.log("Logging in...");
+      await handleLogin();
+    }
+    return;
+  }
 
   return (
-    <>
-      {registered ? (
-        <>
-          <form onSubmit={handleSubmit}>
-            <TextInput
-              withAsterisk
-              label="Email"
-              placeholder="your@email.com"
-              value={form.values.email}
-              {...form.getInputProps("email")}
-            />
-            <PasswordInput
-              withAsterisk
-              label="Password"
-              placeholder="password"
-              value={form.values.password}
-              {...form.getInputProps("password")}
-            />
-            <Group justify="flex-end" mt="md">
-              <Button
-                type="submit"
-                disabled={Object.keys(form.errors).length > 1}
-              >
-                Login
-              </Button>
-            </Group>
-          </form>
-          Don&apos;t have an account? &ensp;
-          <Button size="xs" onClick={changeRegisteredStatus}>
-            Sign Up
+    <Paper radius="md" p="xl">
+      <Divider
+        label="Please supply your information."
+        labelPosition="center"
+        my="lg"
+      />
+
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Stack>
+          {type === "Register" && (
+            <>
+              <TextInput
+                required
+                label="First Name"
+                placeholder="Your first name"
+                {...form.getInputProps("firstName")}
+                radius="md"
+              />
+              <TextInput
+                required
+                label="Last Name"
+                placeholder="Your last name"
+                {...form.getInputProps("lastName")}
+                radius="md"
+              />
+              <TextInput
+                required
+                label="Profile Picture"
+                placeholder="URL to a profile picture"
+                {...form.getInputProps("profilePicture")}
+                radius="md"
+              />
+            </>
+          )}
+
+          <TextInput
+            required
+            label="Email"
+            placeholder="example@domain.com"
+            {...form.getInputProps("email")}
+            error={form.errors.email && "Invalid email"}
+            radius="md"
+          />
+
+          <PasswordInput
+            required
+            label="Password"
+            placeholder="Your password"
+            {...form.getInputProps("password")}
+            error={
+              form.errors.password &&
+              "Password should have 8 characters, 1 capital letter, 1 special character, and 1 numeral"
+            }
+            radius="md"
+          />
+        </Stack>
+
+        {error && (
+          <Center mt={15}>
+            <Badge color="red">{error}</Badge>
+          </Center>
+        )}
+        <Group justify="space-between" mt="xl">
+          <Anchor
+            component="button"
+            type="button"
+            c="dimmed"
+            onClick={() => toggle()}
+            size="xs"
+          >
+            {type === "register"
+              ? "Already have an account? Login"
+              : "Don't have an account? Register"}
+          </Anchor>
+          <Button type="submit" disabled={form.isSubmitting || form.hasErrors}>
+            {type}
           </Button>
-        </>
-      ) : (
-        <>
-          <form onSubmit={handleSubmit}>
-            <TextInput
-              withAsterisk
-              label="Email"
-              placeholder="your@email.com"
-              value={registerForm.values.email}
-              {...form.getInputProps("email")}
-            />
-            <TextInput
-              withAsterisk
-              label="Username"
-              placeholder="username"
-              value={registerForm.values.username}
-              {...form.getInputProps("username")}
-            />
-            <PasswordInput
-              withAsterisk
-              label="Password"
-              placeholder="password"
-              value={registerForm.values.password}
-              {...form.getInputProps("password")}
-            />
-            <TextInput
-              withAsterisk
-              label="First name"
-              placeholder="first name"
-              value={registerForm.values.firstName}
-              {...form.getInputProps("firstName")}
-            />
-            <TextInput
-              withAsterisk
-              label="Last name"
-              placeholder="last name"
-              value={registerForm.values.lastName}
-              {...form.getInputProps("lastName")}
-            />
-            <Group justify="flex-end" mt="md">
-              <Button
-                type="submit"
-                disabled={Object.keys(form.errors).length > 1}
-              >
-                Register
-              </Button>
-            </Group>
-          </form>
-          Already have an account?&ensp;
-          <Button size="xs" onClick={changeRegisteredStatus}>
-            Log In
-          </Button>
-        </>
-      )}
-    </>
+        </Group>
+      </form>
+    </Paper>
   );
 }
 
