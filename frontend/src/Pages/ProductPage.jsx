@@ -1,8 +1,7 @@
-import ViewProduct from "../Components/Products/ViewProduct";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct } from "../Helpers/APIManager";
-
+import { ViewProduct } from "../Components/Products/ViewProduct";
 function ProductPage() {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
@@ -14,8 +13,6 @@ function ProductPage() {
     }
     fetchData();
   }, [productId]);
-
-  console.log(product);
 
   return <ViewProduct product={product} />;
 }

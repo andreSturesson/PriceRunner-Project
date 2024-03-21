@@ -175,6 +175,45 @@ export async function getWishList() {
 }
 
 /**
+ * Posts a review for a product.
+ * @param {string} productId - The ID of the product to post the review for.
+ * @param {Object} payload - The review data.
+ * @param {string} payload.title - The title of the review.
+ * @param {string} payload.content - The content of the review.
+ * @param {number} payload.rating - The rating of the review.
+ * @returns {Promise<Object>} - A promise that resolves to the response data if successful, or an error message if unsuccessful.
+ */
+export async function postReview(productId, payload) {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/${productId}/reviews`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function getReviews(productId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/${productId}/reviews`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function deleteReview(reviewId) {
+  try {
+    const response = await axios.delete(`${BASE_URL}/reviews/${reviewId}`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+/**
  * Deletes a product from the user's wishlist.
  * @param {string} productId - The ID of the product to be deleted.
  * @returns {Promise<any>} - A promise that resolves to the response data if successful, or an error message if unsuccessful.

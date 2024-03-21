@@ -14,7 +14,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { userAtom } from "../../State/auth.state";
 import { useAtom } from "jotai";
-export default function ViewProduct({ product }) {
+import ReviewList from "../Review/ReviewList";
+export function ViewProduct({ product }) {
   const [user] = useAtom(userAtom);
 
   return (
@@ -31,6 +32,7 @@ export default function ViewProduct({ product }) {
         <Container>
           <Button>View On Amazon</Button>
         </Container>
+        <ReviewList productId={product.id} />
       </Card>
       <Space h={10} />
     </>
