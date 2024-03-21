@@ -33,7 +33,7 @@ Thumbs.db
 #Ignore DATASET
 /data
 node_modules
-
+*.csv
 backend/backend/bin/*
 
 # User-specific files
