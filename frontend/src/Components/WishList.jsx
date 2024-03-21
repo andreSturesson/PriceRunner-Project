@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mantine/core";
+import { Box, Button, ScrollArea, Stack } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { getWishList, deleteFromWishList } from "../Helpers/APIManager";
 
@@ -21,28 +21,42 @@ function WishList() {
   }, [setWishList]);
 
   function handleDelete(productId) {
+    const tempList = wishList.filter((item) => item.id !== productId);
+    setWishList(tempList);
+
     try {
+      console.log(productId);
       deleteFromWishList(productId);
     } catch (error) {
-      console.log(error);
+      console.log("this", error);
     }
   }
 
   return (
     <Box>
       <h2>Wish List</h2>
-      {wishList.map((item) => (
-        <Box key={item.id}>
-          <Stack>
-            Item: {item.title}
-            Price: {item.price}
-            Category: {item.category.name}
-            <Button size="compact-xs" onClick={() => handleDelete()}>
-              remove
-            </Button>
-          </Stack>
-        </Box>
-      ))}
+      <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+        {wishList.map((item) => (
+          <Box key={item.id}>
+            <Stack
+              align="flex-start"
+              justify="flex-start"
+              className="itemNames"
+            >
+              Item: {item.title} <br />
+              Price: {item.price} <br />
+              Category: {item.category.name}
+              <Button
+                size="compact-xs"
+                variant="default"
+                onClick={() => handleDelete(item.id)}
+              >
+                remove
+              </Button>
+            </Stack>
+          </Box>
+        ))}
+      </ScrollArea>
     </Box>
   );
 }
