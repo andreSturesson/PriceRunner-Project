@@ -18,12 +18,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useToggle } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
-
+import { useNavigate } from "react-router-dom";
 function LoginModel({ close }) {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [user, setUser] = useAtom(userAtom);
   const [type, toggle] = useToggle(["Login", "Register"]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({ text: "", color: "red" });
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -58,22 +59,24 @@ function LoginModel({ close }) {
       };
 
       const response = await registerUser(submit);
-      if (response.status === 200) {
-        await login({
-          email: form.values.email,
-          password: form.values.password,
+      if (response.status === "BAD_REQUEST") {
+        setError({
+          text: "  A user with that email already exist",
+          color: "red",
         });
-        const registeredUser = JSON.parse(localStorage.getItem("user"));
-        setUser(registeredUser);
-        setIsLoggedIn(true);
-        close();
+        return;
+      }
+      console.log("Response:", response);
+      if (response.status === 200) {
+        setError({ text: "User registered successfully", color: "green" });
+        toggle();
       } else {
         const { message } = response;
-        setError(message);
+        setError({ text: message, color: "red" });
         return;
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.log("Error during registration:", error);
     }
   }
 
@@ -81,6 +84,10 @@ function LoginModel({ close }) {
     try {
       const response = await login(form.values);
       console.log("Response:", response);
+      if (response.status === "UNAUTHORIZED_EXPIRED") {
+        setError({ text: "Invalid email or password", color: "red" });
+        return;
+      }
       if (response.status === 200) {
         const loggedInUser = JSON.parse(localStorage.getItem("user"));
         setUser(loggedInUser);
@@ -108,6 +115,11 @@ function LoginModel({ close }) {
       await handleLogin();
     }
     return;
+  }
+
+  async function handleToggle() {
+    setError({ text: "", color: "red" });
+    toggle();
   }
 
   return (
@@ -168,9 +180,9 @@ function LoginModel({ close }) {
           />
         </Stack>
 
-        {error && (
+        {error.text && (
           <Center mt={15}>
-            <Badge color="red">{error}</Badge>
+            <Badge color={error.color}>{error.text}</Badge>
           </Center>
         )}
         <Group justify="space-between" mt="xl">
@@ -178,14 +190,14 @@ function LoginModel({ close }) {
             component="button"
             type="button"
             c="dimmed"
-            onClick={() => toggle()}
+            onClick={() => handleToggle()}
             size="xs"
           >
-            {type === "register"
+            {type === "Register"
               ? "Already have an account? Login"
               : "Don't have an account? Register"}
           </Anchor>
-          <Button type="submit" disabled={form.isSubmitting || form.hasErrors}>
+          <Button type="submit" disabled={!form.isValid()}>
             {type}
           </Button>
         </Group>

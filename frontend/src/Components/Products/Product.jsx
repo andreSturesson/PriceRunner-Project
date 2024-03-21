@@ -7,21 +7,43 @@ import {
   Text,
   Rating,
   Container,
+  Button,
 } from "@mantine/core";
 import PropTypes from "prop-types";
 import { isLoggedInAtom } from "../../State/auth.state";
 import { useAtom } from "jotai";
+import { IoBagAddOutline } from "react-icons/io5";
+import { IoCheckmarkCircle } from "react-icons/io5";
+import { addToWishList } from "../../Helpers/APIManager";
+import { useState } from "react";
+
 function Product({ product }) {
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
+
+  function addProduct() {
+    setError(null);
+    try {
+      const ret = addToWishList(product.id);
+      if (ret.status === 200) {
+        setSuccess(true);
+      }
+    } catch (error) {
+      setSuccess(false);
+      setError(error.message);
+    }
+  }
+
   return (
     <>
-      <Card shadow="sm" padding="xl" component="a" target="_blank" withBorder>
+      <Card shadow="xl" padding="xl">
         <Card.Section>
           <Center>
             <Image src={product.imageUrl} h={400} w={350} alt="No way!" />
           </Center>
         </Card.Section>
-        <Group>
+        <Group h="100%" justify="space-between">
           <Text fw={500} size="lg" mt="md">
             <a
               style={{ textDecoration: "none", color: "inherit" }}
@@ -32,9 +54,15 @@ function Product({ product }) {
             </a>
           </Text>
           {isLoggedIn && (
-            <Container mr={0}>
-              <Rating defaultValue={2} />
-            </Container>
+            <Group justify="flex-end">
+              {success ? (
+                <IoCheckmarkCircle />
+              ) : (
+                <Button variant="subtle" size="lg" onClick={addProduct}>
+                  <IoBagAddOutline />
+                </Button>
+              )}
+            </Group>
           )}
         </Group>
 

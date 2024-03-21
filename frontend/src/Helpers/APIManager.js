@@ -45,7 +45,10 @@ axios.interceptors.request.use(
 export async function registerUser(payload) {
   try {
     const response = await axios.post(`${BASE_URL}/register`, payload);
-    const data = response.data;
+    console.log(response.status);
+    if (response.status === "BAD_REQUEST") {
+      return response;
+    }
     await login({
       email: payload.email,
       password: payload.password,
@@ -55,7 +58,7 @@ export async function registerUser(payload) {
       firstName: payload.firstName,
       lastName: payload.lastName,
     });
-    return data;
+    return response;
   } catch (error) {
     return getErrorMessage(error);
   }
@@ -169,6 +172,15 @@ export async function getWishList() {
     const response = await axios.get(`${BASE_URL}/user/wishlist`);
     console.log(response.data);
     return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function addToWishList(productId) {
+  try {
+    const response = await axios.post(`${BASE_URL}/user/wishlist/${productId}`);
+    return response;
   } catch (error) {
     return getErrorMessage(error);
   }

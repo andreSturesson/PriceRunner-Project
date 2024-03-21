@@ -9,13 +9,15 @@ import {
   Button,
   Text,
   Loader,
+  Card,
+  NativeSelect,
 } from "@mantine/core";
 import { useProductsAtom, useParametersAtom } from "../../State/products.state";
 import { useAtom } from "jotai";
 import Product404 from "./Product404";
 import Product from "./Product";
 import { useSearchParams } from "react-router-dom";
-
+import { isLoadingAtom } from "../../State/products.state";
 //TODO Implement a better looking design.
 function ProductList() {
   const [products, setProducts] = useProductsAtom();
@@ -27,7 +29,7 @@ function ProductList() {
   const [totalPages, setTotalPages] = useState(0);
   const [numberOfProducts, setNumberOfProducts] = useState(0);
   let [searchParams, setSearchParams] = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +37,7 @@ function ProductList() {
       try {
         const products = await getProducts(parameters);
         if (products) {
+          console.log(products);
           setTotalPages(products.data.totalPages);
           setNumberOfProducts(products.data.numberOfProducts);
           setProducts(products.data.products);
@@ -80,11 +83,27 @@ function ProductList() {
   return (
     <>
       {setIsLoading ? (
-        <Container>
+        <Card shadow="sm" padding="xl" withBorder>
+          <Group h="100%" justify="space-between">
+            <Text align="left" size="xs">
+              Showing {parameters.limit} of {formatNumber(numberOfProducts)}{" "}
+              results
+            </Text>
+            <Group justify="flex-end">
+              <NativeSelect
+                size="xs"
+                variant="filled"
+                defaultValue="card"
+                data={[
+                  { value: "card", label: "Card View" },
+                  { value: "list", label: "List View" },
+                ]}
+              />
+            </Group>
+          </Group>
           <Space h="md" />
-          <Text align="left" size="xs">
-            Returned: {formatNumber(numberOfProducts)} items
-          </Text>
+          <Divider />
+          <Space h="md" />
           {products ? (
             products.map((product) => (
               <Product key={product.id} product={product} />
@@ -106,7 +125,7 @@ function ProductList() {
             </Text>
           </Group>
           <Space h="md" />
-        </Container>
+        </Card>
       ) : (
         <Container>
           <Space h="md" />

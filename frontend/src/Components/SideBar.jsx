@@ -2,9 +2,11 @@ import "./SideBar.css";
 import { useNavigate } from "react-router-dom";
 import { AppShell, Box, Button, Container } from "@mantine/core";
 import WishList from "./WishList";
+import { isLoggedInAtom } from "../State/auth.state";
+import { useAtom } from "jotai";
 
 function SideBar() {
-  const isLoggedIn = true; //get this from login condition
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   let isCollapsed = true;
   const navigate = useNavigate();

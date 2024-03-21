@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 function ProductSort() {
   const [products, setProducts] = useProductsAtom();
   const [sortingOrder, setSortingOrder] = useState("asc");
-
   useEffect(() => {
     // Whenever 'sorting' changes, resort the list of products accordingly and re-render
     // Check which order is active
