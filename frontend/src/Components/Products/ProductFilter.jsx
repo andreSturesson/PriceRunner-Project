@@ -30,10 +30,17 @@ function ProductFilter() {
   }, []);
 
   function createData(data) {
-    return data.map((item) => ({
-      value: item.id.toString(),
-      label: item.name,
-    }));
+    const newData = [
+      {
+        value: "0",
+        label: "---",
+      },
+      ...data.map((item) => ({
+        value: item.id.toString(),
+        label: item.name,
+      })),
+    ];
+    return newData;
   }
 
   const selectData = createData(categories);
@@ -53,7 +60,7 @@ function ProductFilter() {
               size="xs"
               variant="filled"
               label="Category"
-              defaultValue="Select a category"
+              defaultValue="---"
               value={category}
               onChange={handleCategoryChange}
               data={selectData}

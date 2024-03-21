@@ -17,7 +17,7 @@ import { useAtom } from "jotai";
 import Product404 from "./Product404";
 import Product from "./Product";
 import { useSearchParams } from "react-router-dom";
-
+import { isLoadingAtom } from "../../State/products.state";
 //TODO Implement a better looking design.
 function ProductList() {
   const [products, setProducts] = useProductsAtom();
@@ -29,7 +29,7 @@ function ProductList() {
   const [totalPages, setTotalPages] = useState(0);
   const [numberOfProducts, setNumberOfProducts] = useState(0);
   let [searchParams, setSearchParams] = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +37,7 @@ function ProductList() {
       try {
         const products = await getProducts(parameters);
         if (products) {
+          console.log(products);
           setTotalPages(products.data.totalPages);
           setNumberOfProducts(products.data.numberOfProducts);
           setProducts(products.data.products);

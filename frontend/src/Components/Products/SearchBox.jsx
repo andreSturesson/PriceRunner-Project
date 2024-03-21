@@ -23,8 +23,10 @@ function SearchBox() {
   const handleSubmit = (event) => {
     event.preventDefault();
     searchForm.validate();
-    setParameters(searchForm.values);
-    searchForm.values = null;
+    setParameters({
+      ...parameters,
+      search_query: searchForm.values.search_query,
+    });
     navigate("/products");
   };
 
