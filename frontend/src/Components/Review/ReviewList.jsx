@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { userAtom } from "../../State/auth.state";
 import { useEffect, useState } from "react";
 import { getReviews } from "../../Helpers/APIManager";
-import { Review } from "./Review";
 
 export default function ReviewList({ productId }) {
   const [error, setError] = useState(null);
@@ -24,9 +23,6 @@ export default function ReviewList({ productId }) {
     <>
       <h1>test</h1>
       {error && <h1>{error}</h1>}
-      {reviews.map((review) => (
-        <Review key={review.id} review={review} />
-      ))}
     </>
   );
 }
