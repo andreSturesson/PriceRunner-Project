@@ -35,7 +35,7 @@ Thumbs.db
 node_modules
 
 backend/backend/bin/*
-
+*.csv
 # User-specific files
 *.suo
 *.user

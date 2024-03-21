@@ -1,5 +1,6 @@
 import { atom, useAtom } from "jotai";
 
+export const isLoadingAtom = atom(false);
 export const productsAtom = atom([]);
 export const categoriesAtom = atom([]);
 export const parametersAtom = atom({

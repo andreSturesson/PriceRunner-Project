@@ -48,7 +48,7 @@ namespace backend.View.Endpoints
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Authorize]
-    public static async Task<IResult> AddItemToWishlist(IWishlistRepository wishlistRepository, int productId, [FromServices] IHttpContextAccessor httpContext)
+    public static async Task<IResult> AddItemToWishlist(IWishlistRepository wishlistRepository, string productId, [FromServices] IHttpContextAccessor httpContext)
     {
       var userId = GetAccountIdFromUser(httpContext);
 
@@ -72,7 +72,7 @@ namespace backend.View.Endpoints
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Authorize]
-    public static async Task<IResult> RemoveItemFromWishlist(IWishlistRepository wishlistRepository, [FromServices] IHttpContextAccessor httpContext, int productId)
+    public static async Task<IResult> RemoveItemFromWishlist(IWishlistRepository wishlistRepository, [FromServices] IHttpContextAccessor httpContext, string productId)
     {
       var userId = GetAccountIdFromUser(httpContext);
       try

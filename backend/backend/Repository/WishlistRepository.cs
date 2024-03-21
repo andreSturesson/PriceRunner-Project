@@ -17,7 +17,7 @@ namespace backend.Repository
       _context = context;
     }
 
-    public async Task<Wishlist> AddItemToWishlist(string userId, int productId)
+    public async Task<Wishlist> AddItemToWishlist(string userId, string productId)
     {
       var wishlist = await _context.Wishlists
           .Include(w => w.Products)
@@ -39,7 +39,7 @@ namespace backend.Repository
       return wish;
     }
 
-    public async Task<Product> RemoveItemFromWishlist(string userId, int productId)
+    public async Task<Product> RemoveItemFromWishlist(string userId, string productId)
     {
       var wishlist = await _context.Wishlists
           .Include(w => w.Products)

@@ -45,7 +45,10 @@ axios.interceptors.request.use(
 export async function registerUser(payload) {
   try {
     const response = await axios.post(`${BASE_URL}/register`, payload);
-    const data = response.data;
+    console.log(response.status);
+    if (response.status === "BAD_REQUEST") {
+      return response;
+    }
     await login({
       email: payload.email,
       password: payload.password,
@@ -55,7 +58,7 @@ export async function registerUser(payload) {
       firstName: payload.firstName,
       lastName: payload.lastName,
     });
-    return data;
+    return response;
   } catch (error) {
     return getErrorMessage(error);
   }
@@ -168,6 +171,54 @@ export async function getWishList() {
   try {
     const response = await axios.get(`${BASE_URL}/user/wishlist`);
     console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function addToWishList(productId) {
+  try {
+    const response = await axios.post(`${BASE_URL}/user/wishlist/${productId}`);
+    return response;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+/**
+ * Posts a review for a product.
+ * @param {string} productId - The ID of the product to post the review for.
+ * @param {Object} payload - The review data.
+ * @param {string} payload.title - The title of the review.
+ * @param {string} payload.content - The content of the review.
+ * @param {number} payload.rating - The rating of the review.
+ * @returns {Promise<Object>} - A promise that resolves to the response data if successful, or an error message if unsuccessful.
+ */
+export async function postReview(productId, payload) {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/${productId}/reviews`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function getReviews(productId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/${productId}/reviews`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+export async function deleteReview(reviewId) {
+  try {
+    const response = await axios.delete(`${BASE_URL}/reviews/${reviewId}`);
     return response.data;
   } catch (error) {
     return getErrorMessage(error);
