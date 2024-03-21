@@ -14,6 +14,7 @@ namespace backend.View.Endpoints
     {
       products.MapGroup("/products");
       products.MapGet("/products", GetProducts);
+      products.MapGet("/products/{id}", GetProductById);
     }
 
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -25,11 +26,11 @@ namespace backend.View.Endpoints
 #pragma warning disable CS8604 // Possible null reference argument.
         var products = await productRepository.GetProducts(query, categoryId, page, limit);
 #pragma warning restore CS8604 // Possible null reference argument.
-        if (products == null || !products.Any())
+        if (products == null || !products.Products.Any())
         {
           return Results.NotFound(new Error(Status.NotFound, "No products found"));
         }
-        return TypedResults.Ok(ProductDTO.FromRepository(products));
+        return TypedResults.Ok(products);
       }
       catch (Exception ex)
       {
@@ -42,9 +43,9 @@ namespace backend.View.Endpoints
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public static async Task<IResult> GetProductById(IProductRepository productRepository, int id)
+    public static async Task<IResult> GetProductById(IProductRepository productRepository, string id)
     {
-      if (id <= 0 || id.GetType() != typeof(int))
+      if (id == null || id.GetType() != typeof(string))
       {
         return Results.BadRequest(new Error(Status.BadRequest, "Invalid id"));
       }

@@ -2,6 +2,7 @@
 using backend.Database;
 using backend.Model;
 using backend.Repository.Interfaces;
+using backend.View.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repository
@@ -16,19 +17,21 @@ namespace backend.Repository
       _context = context;
     }
 
-    public async Task<Product> GetProductById(int id)
+    public Task<Product> GetProductById(string id)
     {
-      var post = await _context.Products.FirstOrDefaultAsync(p => p.Id == id) ?? throw new Exception("Product not found");
-      return post;
+      return _context.Products
+        .Include(p => p.Category)
+        .FirstOrDefaultAsync(p => p.Id == id) ?? throw new Exception("Product not found");
     }
 
-    public async Task<IEnumerable<Product>> GetProducts(string? query = null, int categoryId = 0, int page = 1, int limit = 10)
+
+    public async Task<ProductWithPaginationDTO> GetProducts(string? query = null, int categoryId = 0, int page = 1, int limit = 10)
     {
       IQueryable<Product> products = _context.Products;
 
       if (!string.IsNullOrEmpty(query))
       {
-        products = products.Where(p => p.Title.Contains(query));
+        products = products.Where(p => p.Title.Contains(query) || p.Category.Name.Contains(query));
       }
 
       if (categoryId != 0)
@@ -36,10 +39,17 @@ namespace backend.Repository
         products = products.Where(p => p.CategoryId == categoryId);
       }
 
-      products = products.OrderBy(p => p.Id).Skip((page - 1) * limit).Take(limit);
-      products = products.Include(p => p.Category);
+      int totalProducts = await products.CountAsync();
+      int totalPages = (int)Math.Ceiling((double)totalProducts / limit);
 
-      return await products.ToListAsync();
+      products = products.OrderBy(p => p.Id)
+                 .Skip((page - 1) * limit)
+                 .Take(limit)
+                 .Include(p => p.Category);
+
+      var ret = await products.ToListAsync();
+      return new ProductWithPaginationDTO(totalPages, totalProducts, ret);
     }
+
   }
 }

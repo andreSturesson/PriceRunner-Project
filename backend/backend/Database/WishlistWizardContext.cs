@@ -27,10 +27,15 @@ namespace backend.Database
 
       modelBuilder.Entity<User>().HasOne(u => u.Wishlist).WithOne(w => w.User).HasForeignKey<Wishlist>(w => w.UserId);
 
-      Seeder seeder = new Seeder();
+      // CsvPopulater seeder = new CsvPopulater(this, "./data/amazon_products.csv", "./data/amazon_categories.csv");
+      // seeder.PushDataToDb();
+    }
 
-      modelBuilder.Entity<Category>().HasData(seeder.Categories);
-      modelBuilder.Entity<Product>().HasData(seeder.Products);
+    public void SeedData()
+    {
+      CsvPopulater seeder = new CsvPopulater(this, "./data/amazon_products.csv", "./data/amazon_categories.csv");
+      seeder.PushDataToDb();
+      SaveChanges();
     }
 
     public DbSet<User> Accounts { get; set; }

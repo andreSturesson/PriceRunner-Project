@@ -24,9 +24,6 @@ export default function ReviewList({ productId }) {
     <>
       <h1>test</h1>
       {error && <h1>{error}</h1>}
-      {reviews.map((review) => (
-        <Review key={review.id} review={review} />
-      ))}
     </>
   );
 }
