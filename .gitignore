@@ -33,9 +33,9 @@ Thumbs.db
 #Ignore DATASET
 /data
 node_modules
-*.csv
-backend/backend/bin/*
 
+backend/backend/bin/*
+*.csv
 # User-specific files
 *.suo
 *.user

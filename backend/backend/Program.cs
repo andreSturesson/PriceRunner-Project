@@ -12,6 +12,7 @@ namespace NoteHarbor
 {
     public class Program
     {
+        private const string DatabaseFlagPath = "./data/database.flag";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -51,8 +52,20 @@ namespace NoteHarbor
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IWishlistRepository, WishListRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-
             var app = builder.Build();
+
+            if (!File.Exists(DatabaseFlagPath))
+            {
+                using (var scope = app.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<WishlistWizardContext>();
+                    context.Database.EnsureCreated();
+                    var csvPopulater = new CsvPopulater(context, "./data/amazon_products.csv", "./data/amazon_categories.csv");
+                    csvPopulater.PushDataToDb();
+                    File.Create(DatabaseFlagPath);
+                }
+            }
 
             if (app.Environment.IsDevelopment())
             {
