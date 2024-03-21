@@ -1,15 +1,25 @@
-import { Box, Button, ScrollArea, Stack } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Card,
+  ScrollArea,
+  Stack,
+  Text,
+  Image,
+  Center,
+} from "@mantine/core";
 import { useEffect, useState } from "react";
 import { getWishList, deleteFromWishList } from "../Helpers/APIManager";
-
+import { wishlistAtom } from "../State/wishlist.state";
+import { useAtom } from "jotai";
+import { Link } from "react-router-dom";
 function WishList() {
-  const [wishList, setWishList] = useState([]);
-  // hämtar från API
+  const [wishList, setWishList] = useAtom(wishlistAtom);
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
         const wishlistItems = await getWishList();
-        console.log(wishlistItems);
         if (wishlistItems) {
           setWishList(wishlistItems.products);
         }
@@ -34,28 +44,39 @@ function WishList() {
 
   return (
     <Box>
-      <h2>Wish List</h2>
+      <Text>
+        <Center>Wish List</Center>
+      </Text>
       <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-        {wishList.map((item) => (
-          <Box key={item.id}>
-            <Stack
-              align="flex-start"
-              justify="flex-start"
-              className="itemNames"
-            >
-              Item: {item.title} <br />
-              Price: {item.price} <br />
-              Category: {item.category.name}
-              <Button
-                size="compact-xs"
-                variant="default"
-                onClick={() => handleDelete(item.id)}
+        {wishList.length > 0 ? (
+          wishList.map((item) => (
+            <Card padding="sm" key={item.id} withBorder>
+              <Image src={item.imageUrl} alt="No way!" radius="lg" />
+              <Stack
+                align="flex-start"
+                justify="flex-start"
+                className="itemNames"
               >
-                remove
-              </Button>
-            </Stack>
-          </Box>
-        ))}
+                <Link
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  to={`/product/${item.id}`}
+                >
+                  {item.title}
+                </Link>
+                <Text>Price: ${item.price.toFixed(2)}</Text>
+                <Button
+                  size="compact-xs"
+                  variant="default"
+                  onClick={() => handleDelete(item.id)}
+                >
+                  Remove
+                </Button>
+              </Stack>
+            </Card>
+          ))
+        ) : (
+          <Text>Your wishlist seems to be empty</Text>
+        )}
       </ScrollArea>
     </Box>
   );

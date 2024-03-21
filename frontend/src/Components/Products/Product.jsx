@@ -14,18 +14,23 @@ import { isLoggedInAtom } from "../../State/auth.state";
 import { useAtom } from "jotai";
 import { IoBagAddOutline } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { addToWishList } from "../../Helpers/APIManager";
+import { addToWishList, getWishList } from "../../Helpers/APIManager";
 import { useState } from "react";
+import { wishlistAtom } from "../../State/wishlist.state";
+import { Link } from "react-router-dom";
 
 function Product({ product }) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const [wishList, setWishlist] = useAtom(wishlistAtom);
 
-  function addProduct() {
+  async function addProduct() {
     setError(null);
     try {
-      const ret = addToWishList(product.id);
+      const ret = await addToWishList(product.id);
+      const wish = await getWishList();
+      setWishlist(wish.products);
       if (ret.status === 200) {
         setSuccess(true);
       }
@@ -45,13 +50,12 @@ function Product({ product }) {
         </Card.Section>
         <Group h="100%" justify="space-between">
           <Text fw={500} size="lg" mt="md">
-            <a
+            <Link
               style={{ textDecoration: "none", color: "inherit" }}
-              href={product.productUrl}
-              target="_blank"
+              to={`/product/${product.id}`}
             >
               {product.title}
-            </a>
+            </Link>
           </Text>
           {isLoggedIn && (
             <Group justify="flex-end">

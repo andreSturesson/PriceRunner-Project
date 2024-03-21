@@ -18,6 +18,7 @@ import Product404 from "./Product404";
 import Product from "./Product";
 import { useSearchParams } from "react-router-dom";
 import { isLoadingAtom } from "../../State/products.state";
+import ProductListView from "./ProductListView";
 //TODO Implement a better looking design.
 function ProductList() {
   const [products, setProducts] = useProductsAtom();
@@ -27,6 +28,7 @@ function ProductList() {
   const [previousPageButton, setPreviousPageButton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [view, setView] = useState("list");
   const [numberOfProducts, setNumberOfProducts] = useState(0);
   let [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
@@ -80,6 +82,15 @@ function ProductList() {
     setCurrentPage(currentPage - 1);
   }
 
+  function changeView(event) {
+    setView(event.currentTarget.value);
+    if (event.currentTarget.value === "list") {
+      setParameters({ ...parameters, limit: 80 });
+    } else {
+      setParameters({ ...parameters, limit: 20 });
+    }
+  }
+
   return (
     <>
       {setIsLoading ? (
@@ -93,11 +104,12 @@ function ProductList() {
               <NativeSelect
                 size="xs"
                 variant="filled"
-                defaultValue="card"
+                defaultValue="list"
                 data={[
                   { value: "card", label: "Card View" },
                   { value: "list", label: "List View" },
                 ]}
+                onChange={changeView}
               />
             </Group>
           </Group>
@@ -105,9 +117,15 @@ function ProductList() {
           <Divider />
           <Space h="md" />
           {products ? (
-            products.map((product) => (
-              <Product key={product.id} product={product} />
-            ))
+            view === "card" ? (
+              products.map((product) => (
+                <Product key={product.id} product={product} />
+              ))
+            ) : (
+              products.map((product) => (
+                <ProductListView key={product.id} product={product} />
+              ))
+            )
           ) : (
             <Product404 />
           )}
