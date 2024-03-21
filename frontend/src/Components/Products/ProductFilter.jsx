@@ -19,11 +19,11 @@ function ProductFilter() {
   const [category, setCategory] = useState();
 
   useEffect(() => {
-    async function getCategoryArray() {
+    const getCategoryArray = async () => {
       const temp = await getCategories();
-      console.log(temp);
       return temp;
-    }
+    };
+
     getCategoryArray().then((x) => {
       setCategories(x);
     });
@@ -47,12 +47,8 @@ function ProductFilter() {
     <div>
       <h2>Filters</h2>
       <div>
-        <label>
-          <input type="checkbox" />
-          Only show products in stock
-        </label>
         <Container>
-          <Group>
+          <Group justify="center">
             <NativeSelect
               size="xs"
               variant="filled"
@@ -63,7 +59,7 @@ function ProductFilter() {
               data={selectData}
             />
           </Group>
-          <Text>Price</Text>
+          {/* <Text>Price</Text>
           <RangeSlider
             label={(value) => `$${value}`}
             minRange={10000}
@@ -71,7 +67,7 @@ function ProductFilter() {
             max={100000}
             step={100}
             defaultValue={[0, 100000]}
-          />
+          /> */}
         </Container>
         <br />
       </div>

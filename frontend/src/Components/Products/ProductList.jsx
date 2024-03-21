@@ -9,6 +9,8 @@ import {
   Button,
   Text,
   Loader,
+  Card,
+  NativeSelect,
 } from "@mantine/core";
 import { useProductsAtom, useParametersAtom } from "../../State/products.state";
 import { useAtom } from "jotai";
@@ -80,11 +82,27 @@ function ProductList() {
   return (
     <>
       {setIsLoading ? (
-        <Container>
+        <Card shadow="sm" padding="xl" withBorder>
+          <Group h="100%" justify="space-between">
+            <Text align="left" size="xs">
+              Showing {parameters.limit} of {formatNumber(numberOfProducts)}{" "}
+              results
+            </Text>
+            <Group justify="flex-end">
+              <NativeSelect
+                size="xs"
+                variant="filled"
+                defaultValue="card"
+                data={[
+                  { value: "card", label: "Card View" },
+                  { value: "list", label: "List View" },
+                ]}
+              />
+            </Group>
+          </Group>
           <Space h="md" />
-          <Text align="left" size="xs">
-            Returned: {formatNumber(numberOfProducts)} items
-          </Text>
+          <Divider />
+          <Space h="md" />
           {products ? (
             products.map((product) => (
               <Product key={product.id} product={product} />
@@ -106,7 +124,7 @@ function ProductList() {
             </Text>
           </Group>
           <Space h="md" />
-        </Container>
+        </Card>
       ) : (
         <Container>
           <Space h="md" />

@@ -174,6 +174,15 @@ export async function getWishList() {
   }
 }
 
+export async function addToWishList(productId) {
+  try {
+    const response = await axios.post(`${BASE_URL}/user/wishlist/${productId}`);
+    return response.data;
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
 /**
  * Posts a review for a product.
  * @param {string} productId - The ID of the product to post the review for.
