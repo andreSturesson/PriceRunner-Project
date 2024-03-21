@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { userAtom } from "../../State/auth.state";
 import { useEffect, useState } from "react";
 import { getReviews } from "../../Helpers/APIManager";
-import { Review } from "./Review";
+import Review from "./Review";
 
 export default function ReviewList({ productId }) {
   const [error, setError] = useState(null);
