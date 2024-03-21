@@ -4,7 +4,6 @@ import {
   Text,
   Group,
   Box,
-  rem,
   Anchor,
   Modal,
   TextInput,
@@ -13,16 +12,15 @@ import { useAtom } from "jotai";
 import { isLoggedInAtom, userAtom } from "../State/auth.state";
 import { useNavigate } from "react-router-dom";
 import classes from "./Profile.module.css";
-import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
+import { getUser, updateUser } from "../Helpers/APIManager";
 
 //Todo redesign this page
 //Add a nice looking design
 export default function Profile() {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [user, setUser] = useAtom(userAtom);
-  const [updatedUser, setUpdatedUser] = useState();
   const [opened, { open, close }] = useDisclosure(false);
 
   const nav = useNavigate();
@@ -35,8 +33,8 @@ export default function Profile() {
     },
     validate: {
       username: (value) =>
-        value.length > 20
-          ? "username can not be longer than 20 characters"
+        value.length > 25
+          ? "username can not be longer than 25 characters"
           : null,
     },
     validateInputOnChange: true,
@@ -59,6 +57,11 @@ export default function Profile() {
       lastName: form.values.lastName,
       userName: form.values.username,
     });
+    updateUser({
+      firstName: form.values.firstName,
+      lastName: form.values.lastName,
+      userName: form.values.username,
+    });
     close();
   };
 
@@ -75,7 +78,7 @@ export default function Profile() {
                   {user.email}
                 </Text>
                 <Text fz="lg" fw={500} className={classes.name}>
-                  {user.firstName} {user.lastName}{" "}
+                  {user.firstName} {user.lastName}
                 </Text>
                 <Anchor onClick={open}>Edit</Anchor>
                 <Modal opened={opened} onClose={close} title="Edit Account">
